@@ -1,0 +1,918 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ccircle cx=%2750%27 cy=%2750%27 r=%2748%27 fill=%27%23f59e0b%27/%3E%3Ctext x=%2750%27 y=%2768%27 font-size=%2755%27 text-anchor=%27middle%27%3E%E2%98%95%3C/text%3E%3C/svg%3E">
+<title>جدول البريكات</title>
+<script>try{var t=localStorage.getItem("th")||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme="light"}try{if(localStorage.getItem("lg")==="en"){document.documentElement.lang="en";document.documentElement.dir="ltr"}}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Readex+Pro:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#eef2f1;--surf:#fff;--surf2:#f4f7f6;--ink:#10201f;--mut:#566866;--line:#d6dfdd;--pine:#0e5c55;--on:#fff;--mint:#dcefea;--glow:#ffb020;--ring:#b45309;--sh1:0 1px 2px rgb(10 40 36/.05),0 8px 24px rgb(10 40 36/.06);color-scheme:light}
+:root[data-theme=dark]{--bg:#0b1312;--surf:#111c1b;--surf2:#152322;--ink:#e5f0ee;--mut:#8fa5a2;--line:#233634;--pine:#5fd1c2;--on:#04201c;--mint:#163532;--ring:#ffc27a;--sh1:0 1px 2px rgb(0 0 0/.3),0 8px 24px rgb(0 0 0/.25);color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 84px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1rem/1.7 "IBM Plex Sans Arabic",Tahoma,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:20}
+h1,h2,h3,.brand,.bt,.tr>b{font-family:"Readex Pro","IBM Plex Sans Arabic",Tahoma,sans-serif}
+h1,h2,h3{text-wrap:balance}
+.wrap{max-width:900px;margin:auto;padding:0 18px}
+.ic{width:1.15em;height:1.15em;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px}
+[hidden]{display:none!important}
+
+/* header */
+.top .bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:16px 4px}
+.brand{display:flex;gap:11px;align-items:center;font-weight:600;font-size:1.05rem}
+.mark{width:36px;height:36px;border-radius:11px;background:var(--pine);color:var(--on);display:grid;place-items:center}
+.mark .ic{width:19px;height:19px}
+.ibtn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--surf);color:var(--ink);display:grid;place-items:center;cursor:pointer}
+.ibtn:hover{border-color:var(--pine);background:var(--mint)}
+.i-sun{display:none}:root[data-theme=dark] .i-sun{display:block}:root[data-theme=dark] .i-moon{display:none}
+
+/* intro */
+.intro{padding:22px 0 12px}
+.intro h1{margin:0 0 12px;font-size:clamp(1.55rem,5vw,2.3rem);line-height:1.35;font-weight:700}
+.stats{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.stats li{padding:3px 13px;border-radius:99px;background:var(--surf);border:1px solid var(--line);font-size:.9rem;color:var(--mut)}
+.stats li b{color:var(--ink);font-weight:600}
+.stats li.warn{background:var(--glow);border-color:var(--glow);color:#2a1a00}
+
+/* sticky search */
+.finder{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;padding:10px 0;background:color-mix(in srgb,var(--bg) 90%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.sb{position:relative}
+.sb input{height:54px;padding-inline:50px 18px;font-size:1.05rem;border:1.5px solid var(--line);border-radius:16px;box-shadow:var(--sh1);-webkit-appearance:none;appearance:none}
+.sb input:focus,.sb input:focus-visible{outline:none;border-color:var(--pine);box-shadow:0 0 0 4px color-mix(in srgb,var(--pine) 20%,transparent)}
+.sb .ic{position:absolute;inset-inline-start:17px;top:50%;translate:0 -50%;color:var(--mut);width:21px;height:21px;pointer-events:none}
+
+input,select{font:inherit;width:100%;height:44px;padding:0 14px;border:1px solid var(--line);border-radius:12px;background:var(--surf);color:var(--ink)}
+input:focus,select:focus{border-color:var(--pine)}
+input[type=file]{height:auto;padding:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:40px;padding:0 15px;border-radius:11px;border:1px solid var(--line);background:var(--surf);color:var(--ink);font:inherit;font-size:.92rem;cursor:pointer;text-decoration:none;white-space:nowrap}
+.btn:hover{border-color:var(--pine)}.btn:active{transform:scale(.97)}.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.pri{background:var(--pine);color:var(--on);border-color:var(--pine)}
+.btn.rm:hover{border-color:#c0392b;color:#c0392b}
+
+/* panel + filters */
+.panel{background:var(--surf);border:1px solid var(--line);border-radius:20px;box-shadow:var(--sh1);overflow:hidden}
+.pnh{padding:14px 16px 12px;border-bottom:1px solid var(--line);display:grid;gap:12px}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.sg{flex:none;height:34px;padding:0 14px;border-radius:99px;border:1px solid var(--line);background:var(--surf);color:var(--ink);font:inherit;font-size:.9rem;cursor:pointer;display:inline-flex;align-items:center}
+.sg small{color:var(--mut);margin-inline-start:6px;font-size:.8rem}
+.sg:hover{border-color:var(--pine)}
+.sg[aria-pressed=true]{background:var(--pine);color:var(--on);border-color:var(--pine)}
+.sg[aria-pressed=true] small{color:inherit;opacity:.85}
+#vseg{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;background:var(--surf2);border:1px solid var(--line);border-radius:14px}
+#vseg .sg{height:40px;border:0;border-radius:10px;background:transparent;justify-content:center}
+#vseg .sg[aria-pressed=true]{background:var(--pine);color:var(--on)}
+.meta{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.cnt{color:var(--mut);margin:0;font-size:.95rem}
+#mseg{gap:6px;align-items:center}
+#mseg .sg{height:30px;padding:0 11px;font-size:.82rem}
+.ml{color:var(--mut);font-size:.82rem;margin-inline-end:2px}
+
+/* person row */
+.p{display:grid;gap:12px;padding:16px 18px;border-bottom:1px solid var(--line);content-visibility:auto;contain-intrinsic-size:auto 120px}
+.p:last-child{border-bottom:0}
+.p:hover{background:var(--surf2)}
+.p h3{margin:0;font-size:1.05rem;font-weight:600;line-height:1.5;overflow-wrap:anywhere}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.chip{padding:1px 11px;border-radius:99px;font-size:.82rem;border:1px solid var(--line);color:var(--mut)}
+.chip.s{background:var(--mint);border-color:transparent;color:var(--pine)}
+.loc{display:flex;gap:7px;color:var(--mut);font-size:.88rem;margin-top:8px}
+.bk{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.bt{display:inline-flex;align-items:baseline;gap:6px;padding:6px 13px;border-radius:10px;background:var(--surf2);border:1px solid var(--line);font-size:1.02rem;font-weight:600;line-height:1.3;font-variant-numeric:tabular-nums}
+.bt small{font:400 .78rem "IBM Plex Sans Arabic",sans-serif;color:var(--mut)}
+.bt.past{opacity:.45}
+.bt.nx{background:var(--glow);border-color:var(--glow);color:#2a1a00}
+.bt.nx small{color:#2a1a00;opacity:.75}
+.bt.nx::before{content:attr(data-nx);font:500 .72rem "IBM Plex Sans Arabic",sans-serif;padding:0 7px;border-radius:99px;background:#2a1a00;color:#ffe3a6;align-self:center;unicode-bidi:isolate}
+.tm{display:grid;gap:6px;justify-items:start;min-width:150px}
+.act{display:flex;gap:8px;flex-wrap:wrap}.act .btn{height:38px;padding:0 13px}
+.hrw{display:flex;gap:6px;align-items:center}.hri{width:130px;height:38px}
+
+/* full table view */
+.tr{display:grid;grid-template-columns:64px 1fr;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line);align-items:start}
+.tr>b{font-size:1.05rem;font-variant-numeric:tabular-nums;font-weight:600;padding-top:2px}
+.tg{display:grid;gap:8px;min-width:0}.tg small{color:var(--mut)}
+
+.note{padding:22px 20px;color:var(--mut);text-align:center}
+.more{display:flex;justify-content:center;padding:16px}
+.foot{padding:30px 0 22px;margin:0}
+
+/* admin */
+.side{background:var(--surf);border:1px solid var(--line);border-radius:18px;padding:0 18px;margin-top:20px;box-shadow:var(--sh1)}
+.side summary{list-style:none;cursor:pointer;padding:14px 0;font-weight:600;display:flex;justify-content:space-between;align-items:center}
+.side summary::-webkit-details-marker{display:none}
+.side summary>span{display:flex;align-items:center;gap:8px}
+.side[open] summary{border-bottom:1px solid var(--line);margin-bottom:14px}
+.side .cv{transition:transform .25s;color:var(--mut)}[dir=ltr] .side .cv{transform:scaleX(-1)}.side[open] .cv{transform:rotate(-90deg)}
+.hint{margin:0 0 12px;padding:10px 14px;border-radius:12px;background:var(--mint);color:var(--pine);font-size:.92rem}
+.hint.err{background:#fbe4e0;color:#8a2a1c}:root[data-theme=dark] .hint.err{background:#3a1e1a;color:#ffb4a5}
+.f label{display:block;font-size:.82rem;color:var(--mut);margin-bottom:4px}
+.fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:10px;margin-bottom:12px}
+.tb{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 14px}
+.dv{border:0;border-top:1px solid var(--line);margin:18px 0}
+.ah{margin:6px 0 12px;font-size:1.05rem}
+.chk{display:flex;gap:8px;align-items:center;margin-top:10px;font-size:.9rem;color:var(--mut)}.chk input{width:auto;height:auto}
+
+@media (min-width:700px){.p{grid-template-columns:1fr auto;align-items:center}.act{flex-direction:column;align-items:stretch;min-width:124px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.top .tools{display:flex;gap:8px;align-items:center}
+.ibtn.tl{width:auto;min-width:40px;padding:0 11px;font:600 .82rem "IBM Plex Sans Arabic",system-ui,sans-serif}
+.side.sub{box-shadow:none;background:var(--surf2);margin:14px 0}
+.ebx{display:grid;gap:10px;margin-top:12px}
+.ebr{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ebr .ebt{width:132px;height:42px}
+.ebd{display:flex;gap:6px;align-items:center;color:var(--mut);font-size:.88rem}
+.ebr .ebm{width:78px;height:42px}
+.ebr .btn.rm{width:42px;height:42px;padding:0;font-size:1.25rem;line-height:1}
+.ebx .tb{margin:2px 0 0}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol>
+<symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+<symbol id="i-nav" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></symbol>
+<symbol id="i-pulse" viewBox="0 0 24 24"><path d="M10 2v2"/><path d="M14 2v2"/><path d="M6 2v2"/><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1"/></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+<symbol id="i-up" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+</defs></svg>
+<header class="top"><div class="wrap bar"><div class="brand"><span class="mark"><svg class="ic" aria-hidden="true"><use href="#i-pulse"/></svg></span><span id="brand">جدول البريكات</span></div>
+<div class="tools"><button class="ibtn tl" id="lang" type="button">EN</button><button class="ibtn" id="theme" type="button" aria-label="تبديل الوضع الليلي"><svg class="ic i-moon" aria-hidden="true"><use href="#i-moon"/></svg><svg class="ic i-sun" aria-hidden="true"><use href="#i-sun"/></svg></button></div></div></header>
+<main id="app"></main>
+<script type="application/json" id="data">{"u": "2026-11-17T20:52:47.543135+00:00", "d": [["Radwa Zenhom", "", "17:00", "03:00", "Allianz"], ["Habiba Mansour", "", "07:00", "16:00", "Allianz"], ["Mohamed ElMorsy", "", "12:00", "23:00", "Allianz"], ["Mohamed AbdElMohsen", "", "15:00", "01:00", "Allianz"], ["Esraa Ayman", "", "10:00", "20:00", "Allianz"], ["Ashrakat Mahmoud", "", "16:00", "01:00", "Allianz"], ["Omar Ali", "", "10:00", "22:00", "Allianz"], ["Heba Reda", "", "10:00", "22:00", "Allianz"], ["Mohamed Reda", "", "07:00", "16:00", "Allianz"], ["Menna Elsabagh", "", "09:00", "17:00", "Allianz"], ["Omar Abdelrazek", "", "11:00", "22:00", "Allianz"], ["Engy Kandil", "", "08:00", "16:00", "Allianz"], ["Ibrahim Swelam", "", "16:00", "00:00", "Allianz"], ["Ali Gamal", "", "10:00", "21:00", "WA"], ["Ahmed Mahrous", "", "16:00", "00:00", "WA"], ["Omar Saad", "", "16:00", "02:00", "WA"], ["Ahmed Mandouh", "", "16:00", "01:00", "WA"], ["Mohamed Mohy", "", "17:00", "03:00", "WA"], ["Mohamad Elsayed", "", "08:00", "17:00", "WA"], ["Mohamed Elwey", "", "08:00", "16:00", "WA"], ["Eman Mohamed", "", "08:00", "16:00", "WA"], ["Abdelrahman Hashem", "", "15:00", "00:00", "Hotline"], ["Ahmed Hamdy", "", "17:00", "03:00", "Hotline"], ["Ahmed Ibrahim1", "", "15:00", "00:00", "Hotline"], ["Ahmed Barakat", "", "11:00", "23:00", "Hotline"], ["Mariam Elhameed", "", "13:00", "22:00", "Hotline"], ["Nada Helmy", "", "10:00", "16:00", "Hotline"], ["Nadya Yasser", "", "09:00", "16:00", "Hotline"], ["Haidy Abdelmegeed", "", "10:00", "19:00", "Hotline"], ["Mohamed AbdElAtty", "", "15:00", "03:00", "Hotline"], ["Ali Ibrahim1", "", "13:00", "23:00", "Hotline"], ["Mai Othman", "", "09:00", "18:00", "Hotline"], ["Mennatullah Omar", "", "09:00", "18:00", "Hotline"], ["Mora Gerges", "", "12:00", "22:00", "Hotline"], ["Ahmed Abdelsameea1", "", "13:00", "23:00", "Hotline"], ["Yassmine Zeineldin", "", "09:00", "19:00", "Hotline"], ["Hamsa Youssef", "", "07:00", "14:00", "Hotline"], ["Amr Ali", "", "14:00", "02:00", "Hotline"], ["Hossam Ali", "", "11:00", "23:00", "Hotline"], ["Omar Abuarieda", "", "18:00", "01:00", "Hotline"], ["Omar Abdelwarth", "", "16:00", "01:00", "Hotline"], ["Rawan Mahmoud", "", "08:00", "16:00", "Hotline"], ["Nourhan Abdelmoteleb", "", "09:00", "17:00", "Hotline"], ["Mohamed Hagag", "", "11:00", "21:00", "Hotline"], ["Zeyad Anas", "", "11:00", "23:00", "Hotline"], ["Ahmed Tarek1", "", "17:00", "01:00", "Hotline"], ["Mazen ElDsowky", "", "11:00", "23:00", "Hotline"], ["Ahmed Hatem1", "", "11:00", "23:00", "Hotline"], ["Zayed Tarek", "", "15:00", "03:00", "Hotline"], ["Ahmed Abdelsalam", "", "16:00", "00:00", "Hotline"], ["Mohamed Khaled1", "", "17:00", "01:00", "Hotline"], ["Hossam Nagar", "", "18:00", "02:00", "Hotline"], ["Sara Elsayedv", "", "07:00", "16:00", "Hotline"], ["Kerolous Essam", "", "16:00", "00:00", "Hotline"], ["Yasmina Fekri", "", "07:00", "14:00", "Hotline"], ["Hager ElSayed", "", "07:00", "16:00", "Hotline"], ["Nourhan Sobhy", "", "08:00", "16:00", "Hotline"], ["Mahmoud Rashad", "", "17:00", "01:00", "Hotline"], ["Yomna Ali", "", "09:00", "17:00", "Hotline"], ["Mariyam Saeed", "", "08:00", "16:00", "Hotline"], ["Kholoud Allam", "", "09:00", "17:00", "Hotline"], ["Sara Rezk", "", "09:00", "16:00", "Hotline"], ["Mayada Ayiad", "", "09:00", "17:00", "Hotline"], ["Malak Sayed", "", "11:00", "21:00", "Hotline"], ["Hagar Slama", "", "10:00", "22:00", "Hotline"], ["Hana ElFattah", "", "12:00", "22:00", "Hotline"], ["Mina Ayman", "", "16:00", "00:00", "Hotline"], ["Nadeen Hesham", "", "08:00", "16:00", "Hotline"], ["Dana Shafie", "", "11:00", "21:00", "Hotline"], ["Sandy Naguib", "", "10:00", "18:00", "Hotline"], ["Radwa Mohamed", "", "09:00", "17:00", "Hotline"], ["Aisha Adel", "", "09:00", "17:00", "Hotline"], ["Hannah Adel", "", "07:00", "15:00", "Hotline"], ["Mostafa Elnagar", "", "16:00", "00:00", "Hotline"], ["Armia Nassif", "", "10:00", "15:00", "Hotline"], ["Amr Said", "", "15:00", "01:00", "Hotline"], ["Mohamed Azab", "", "17:00", "03:00", "Hotline"], ["Hussein Awad", "", "16:00", "00:00", "Hotline"], ["Mohamed Abdelaziz", "", "13:00", "23:00", "Hotline"], ["Khaled Ismail", "", "18:00", "02:00", "Hotline"], ["Enayat Fouad", "", "08:00", "16:00", "Hotline"], ["Omar Saed", "", "08:00", "16:00", "Hotline"], ["Esraa Mostafa", "", "16:00", "00:00", "Hotline"], ["Shams Abdelhamid", "", "13:00", "22:00", "Hotline"], ["Nada Abdelrazek", "", "12:00", "22:00", "Hotline"], ["Shereen Abdelkreem", "", "08:00", "16:00", "Hotline"]], "b": {"date": "2026-11-17", "r": [["09:15", "Allianz", "Mohamed Reda", ""], ["09:15", "Hotline", "Yasmina Fekri", ""], ["09:15", "WA", "Mohamad Elsayed", ""], ["16:45", "Allianz", "Omar Abdelrazek", ""], ["16:45", "Hotline", "Mazen ElDsowky", ""], ["09:30", "Hotline", "Hannah Adel", ""], ["17:00", "Hotline", "Hossam Ali", ""], ["17:00", "Hotline", "Amr Ali", ""], ["09:45", "Hotline", "Sara Elsayedv", ""], ["17:15", "Allianz", "Radwa Zenhom", ""], ["17:15", "Hotline", "Ahmed Barakat", ""], ["17:15", "Hotline", "Amr Said", ""], ["17:15", "WA", "Mohamed Mohy", ""], ["10:00", "Allianz", "Habiba Mansour", ""], ["10:00", "Hotline", "Hamsa Youssef", ""], ["17:30", "Allianz", "Mohamed AbdElMohsen", ""], ["17:30", "Hotline", "Zeyad Anas", ""], ["17:30", "Hotline", "Mohamed AbdElAtty", ""], ["17:30", "Hotline", "Ahmed Hamdy", ""], ["10:15", "Hotline", "Hager ElSayed", ""], ["17:45", "Allianz", "Mohamed ElMorsy", ""], ["17:45", "Hotline", "Yassmine Zeineldin", "5"], ["17:45", "Hotline", "Mora Gerges", ""], ["17:45", "Hotline", "Zayed Tarek", ""], ["17:45", "WA", "Omar Saad", ""], ["10:30", "Hotline", "Rawan Mahmoud", ""], ["10:30", "WA", "Mohamad Elsayed", ""], ["18:00", "Hotline", "Abdelrahman Hashem", ""], ["18:00", "Hotline", "Mina Ayman", ""], ["10:45", "Hotline", "Enayat Fouad", ""], ["10:45", "WA", "Mohamed Elwey", ""], ["18:15", "Hotline", "Ahmed Ibrahim1", ""], ["18:15", "Hotline", "Ahmed Abdelsalam", ""], ["18:15", "Hotline", "Mostafa Elnagar", ""], ["11:00", "Allianz", "Engy Kandil", ""], ["11:00", "Hotline", "Mariyam Saeed", ""], ["11:00", "Hotline", "Shereen Abdelkreem", ""], ["18:30", "Allianz", "Esraa Ayman", "5"], ["18:30", "Hotline", "Dana Shafie", "5"], ["18:30", "Hotline", "Hana ElFattah", ""], ["18:30", "Hotline", "Nada Abdelrazek", ""], ["11:15", "Hotline", "Nourhan Sobhy", ""], ["11:15", "Hotline", "Omar Saed", ""], ["11:15", "WA", "Eman Mohamed", ""], ["18:45", "Allianz", "Ibrahim Swelam", ""], ["18:45", "Hotline", "Hagar Slama", ""], ["18:45", "Hotline", "Ali Ibrahim1", ""], ["18:45", "Hotline", "Mohamed Abdelaziz", ""], ["18:45", "WA", "Ali Gamal", "10"], ["11:30", "Hotline", "Nadeen Hesham", ""], ["11:30", "Hotline", "Kholoud Allam", ""], ["19:00", "Allianz", "Ashrakat Mahmoud", ""], ["19:00", "Hotline", "Mariam Elhameed", ""], ["19:00", "Hotline", "Ahmed Abdelsameea1", ""], ["19:00", "Hotline", "Omar Abdelwarth", ""], ["19:00", "WA", "Ahmed Mahrous", ""], ["11:45", "Hotline", "Nadya Yasser", ""], ["11:45", "Hotline", "Yassmine Zeineldin", ""], ["11:45", "Hotline", "Mayada Ayiad", ""], ["19:15", "Allianz", "Omar Ali", ""], ["19:15", "Hotline", "Malak Sayed", "5"], ["19:15", "Hotline", "Shams Abdelhamid", ""], ["19:15", "Hotline", "Kerolous Essam", ""], ["19:15", "WA", "Ahmed Mandouh", ""], ["12:00", "Allianz", "Menna Elsabagh", ""], ["12:00", "Hotline", "Mennatullah Omar", ""], ["12:00", "Hotline", "Yomna Ali", ""], ["12:00", "Hotline", "Aisha Adel", ""], ["19:30", "Allianz", "Heba Reda", ""], ["19:30", "Hotline", "Mohamed Hagag", "5"], ["19:30", "Hotline", "Ahmed Hatem1", ""], ["19:30", "Hotline", "Esraa Mostafa", ""], ["12:15", "Hotline", "Mai Othman", ""], ["12:15", "Hotline", "Nourhan Abdelmoteleb", ""], ["12:15", "Hotline", "Radwa Mohamed", ""], ["19:45", "Allianz", "Omar Abdelrazek", "10"], ["19:45", "Hotline", "Mazen ElDsowky", ""], ["19:45", "Hotline", "Hussein Awad", ""], ["19:45", "Hotline", "Mohamed Khaled1", ""], ["12:30", "Allianz", "Esraa Ayman", ""], ["12:30", "Hotline", "Sara Rezk", ""], ["12:30", "Hotline", "Dana Shafie", ""], ["20:00", "Hotline", "Hossam Ali", ""], ["20:00", "Hotline", "Amr Ali", ""], ["20:00", "Hotline", "Ahmed Tarek1", ""], ["12:45", "Allianz", "Mohamed Reda", ""], ["12:45", "Hotline", "Hannah Adel", ""], ["12:45", "Hotline", "Hagar Slama", ""], ["12:45", "WA", "Ali Gamal", ""], ["20:15", "Allianz", "Radwa Zenhom", ""], ["20:15", "Hotline", "Ahmed Barakat", ""], ["20:15", "Hotline", "Amr Said", ""], ["20:15", "Hotline", "Mahmoud Rashad", ""], ["20:15", "WA", "Mohamed Mohy", ""], ["13:00", "Allianz", "Habiba Mansour", ""], ["13:00", "Hotline", "Sara Elsayedv", ""], ["13:00", "Hotline", "Haidy Abdelmegeed", ""], ["13:00", "Hotline", "Armia Nassif", ""], ["20:30", "Allianz", "Mohamed AbdElMohsen", ""], ["20:30", "Hotline", "Zeyad Anas", ""], ["20:30", "Hotline", "Mohamed AbdElAtty", ""], ["20:30", "Hotline", "Ahmed Hamdy", ""], ["13:15", "Allianz", "Omar Ali", ""], ["13:15", "Hotline", "Nada Helmy", ""], ["13:15", "Hotline", "Sandy Naguib", ""], ["13:15", "Hotline", "Malak Sayed", ""], ["20:45", "Allianz", "Mohamed ElMorsy", "10"], ["20:45", "Hotline", "Mora Gerges", "5"], ["20:45", "Hotline", "Zayed Tarek", ""], ["20:45", "Hotline", "Mohamed Azab", ""], ["20:45", "WA", "Omar Saad", ""], ["13:30", "Allianz", "Heba Reda", ""], ["13:30", "Hotline", "Hager ElSayed", ""], ["13:30", "Hotline", "Mohamed Hagag", ""], ["13:30", "Hotline", "Ahmed Hatem1", ""], ["21:00", "Hotline", "Armia Nassif", ""], ["21:00", "Hotline", "Abdelrahman Hashem", ""], ["21:00", "Hotline", "Mina Ayman", ""], ["13:45", "Allianz", "Omar Abdelrazek", ""], ["13:45", "Hotline", "Rawan Mahmoud", ""], ["13:45", "Hotline", "Enayat Fouad", ""], ["13:45", "Hotline", "Mazen ElDsowky", ""], ["13:45", "WA", "Mohamed Elwey", ""], ["21:15", "Hotline", "Ahmed Ibrahim1", ""], ["21:15", "Hotline", "Ahmed Abdelsalam", ""], ["21:15", "Hotline", "Mostafa Elnagar", ""], ["14:00", "Allianz", "Engy Kandil", ""], ["14:00", "Hotline", "Mariyam Saeed", ""], ["14:00", "Hotline", "Shereen Abdelkreem", ""], ["14:00", "Hotline", "Hossam Ali", ""], ["21:30", "Hotline", "Hana ElFattah", "5"], ["21:30", "Hotline", "Nada Abdelrazek", "5"], ["21:30", "Hotline", "Omar Abuarieda", ""], ["14:15", "Hotline", "Nourhan Sobhy", ""], ["14:15", "Hotline", "Omar Saed", ""], ["14:15", "Hotline", "Ahmed Barakat", ""], ["14:15", "WA", "Eman Mohamed", ""], ["21:45", "Allianz", "Ibrahim Swelam", ""], ["21:45", "Hotline", "Ali Ibrahim1", "5"], ["21:45", "Hotline", "Mohamed Abdelaziz", "5"], ["21:45", "Hotline", "Khaled Ismail", ""], ["14:30", "Hotline", "Nadeen Hesham", ""], ["14:30", "Hotline", "Kholoud Allam", ""], ["14:30", "Hotline", "Zeyad Anas", ""], ["22:00", "Allianz", "Ashrakat Mahmoud", ""], ["22:00", "Hotline", "Ahmed Abdelsameea1", "5"], ["22:00", "Hotline", "Omar Abdelwarth", ""], ["22:00", "WA", "Ahmed Mahrous", ""], ["14:45", "Allianz", "Mohamed ElMorsy", ""], ["14:45", "Hotline", "Yassmine Zeineldin", ""], ["14:45", "Hotline", "Mayada Ayiad", ""], ["14:45", "Hotline", "Mora Gerges", ""], ["22:15", "Hotline", "Kerolous Essam", ""], ["22:15", "Hotline", "Hossam Nagar", ""], ["22:15", "WA", "Ahmed Mandouh", ""], ["15:00", "Allianz", "Menna Elsabagh", ""], ["15:00", "Hotline", "Mennatullah Omar", ""], ["15:00", "Hotline", "Yomna Ali", ""], ["15:00", "Hotline", "Aisha Adel", ""], ["22:30", "Hotline", "Esraa Mostafa", ""], ["15:15", "Hotline", "Mai Othman", ""], ["15:15", "Hotline", "Nourhan Abdelmoteleb", ""], ["15:15", "Hotline", "Radwa Mohamed", ""], ["22:45", "Hotline", "Hussein Awad", ""], ["22:45", "Hotline", "Mohamed Khaled1", ""], ["15:30", "Allianz", "Esraa Ayman", ""], ["15:30", "Hotline", "Dana Shafie", ""], ["15:30", "Hotline", "Hana ElFattah", ""], ["15:30", "Hotline", "Nada Abdelrazek", ""], ["23:00", "Hotline", "Amr Ali", ""], ["23:00", "Hotline", "Ahmed Tarek1", ""], ["23:00", "Hotline", "Mohamed Azab", ""], ["15:45", "Hotline", "Hagar Slama", ""], ["15:45", "Hotline", "Ali Ibrahim1", ""], ["15:45", "Hotline", "Mohamed Abdelaziz", ""], ["15:45", "WA", "Ali Gamal", ""], ["23:15", "Allianz", "Radwa Zenhom", "5"], ["23:15", "Hotline", "Amr Said", "5"], ["23:15", "Hotline", "Mahmoud Rashad", ""], ["23:15", "WA", "Mohamed Mohy", "5"], ["16:00", "Hotline", "Haidy Abdelmegeed", ""], ["16:00", "Hotline", "Mariam Elhameed", ""], ["16:00", "Hotline", "Ahmed Abdelsameea1", ""], ["23:30", "Allianz", "Mohamed AbdElMohsen", "5"], ["23:30", "Hotline", "Mohamed AbdElAtty", ""], ["23:30", "Hotline", "Ahmed Hamdy", "5"], ["23:30", "Hotline", "Khaled Ismail", ""], ["16:15", "Allianz", "Omar Ali", ""], ["16:15", "Hotline", "Sandy Naguib", ""], ["16:15", "Hotline", "Malak Sayed", ""], ["16:15", "Hotline", "Shams Abdelhamid", ""], ["23:45", "Hotline", "Zayed Tarek", ""], ["23:45", "Hotline", "Mohamed Azab", "5"], ["23:45", "Hotline", "Hossam Nagar", ""], ["23:45", "WA", "Omar Saad", "5"], ["16:30", "Allianz", "Heba Reda", ""], ["16:30", "Hotline", "Mohamed Hagag", ""], ["16:30", "Hotline", "Ahmed Hatem1", ""]]}}</script>
+<script>
+(()=>{
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const nz=s=>String(s||'').toLowerCase().replace(/[\u064B-\u0652\u0640]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي').replace(/[٠-٩]/g,d=>d.charCodeAt(0)-1632).replace(/\s+/g,' ');
+let lang='ar';try{lang=localStorage.getItem('lg')==='en'?'en':'ar'}catch(e){}
+const ar=n=>Number(n).toLocaleString(lang==='ar'?'ar-EG':'en-US');
+const tm=s=>{if(typeof s==='number'&&s>0&&s<1){const t=Math.round(s*1440);return String(t/60|0).padStart(2,'0')+':'+String(t%60).padStart(2,'0')}const m=/(\d{1,2}):(\d{2})/.exec(String(s??''));return m?m[1].padStart(2,'0')+':'+m[2]:''};
+const mm=t=>{const [h,m]=t.split(':');return +h*60+ +m};
+let D;try{D=JSON.parse($('#data').textContent)}catch(e){D={}}
+D.d=D.d||[];D.b=D.b||{date:'',r:[]};
+let unlocked=false,dirty=false,edit=-1,st={q:'',m:'all',g:'',lim:40,v:'p'};
+$('#theme').onclick=()=>{const r=document.documentElement,t=r.dataset.theme==='dark'?'light':'dark';r.dataset.theme=t;try{localStorage.setItem('th',t)}catch(e){}};
+$('#lang').onclick=()=>setLang(lang==='ar'?'en':'ar');
+addEventListener('beforeunload',e=>{if(dirty&&(!SRV||saving)){e.preventDefault();e.returnValue=''}});
+
+/* ---------- i18n ---------- */
+let eb=null,PUB=null,STAT=false,GH=null,ghOpen=false;try{GH=JSON.parse(localStorage.getItem('ghc')||'null')}catch(e){}
+const ghOk=()=>!!(GH&&GH.o&&GH.r&&GH.t);
+const LG={
+ar:{
+title:`جدول البريكات`,themeLbl:`تبديل الوضع الليلي`,
+sched:d=>`جدول ${d}`,noSched:`لسه مفيش جدول`,notToday:`الجدول ده مش بتاع النهاردة`,
+statEmp:n=>`<b>${ar(n)}</b> موظف`,statBrk:n=>`<b>${ar(n)}</b> بريك`,
+searchPh:`ابحث بالاسم أو كود HR`,searchLbl:`بحث`,
+vP:`بريكات الأفراد`,vF:`الجدول الكامل`,searchIn:`بحث في`,mAll:`الكل`,mName:`الاسم`,mHr:`كود HR`,
+all:`الكل`,noHrF:`من غير كود HR`,sep:`، `,
+results:n=>`${ar(n)} نتيجة`,fullHdr:d=>`جدول يوم ${d}`,
+noRes:`مفيش نتيجة.`,noSchedYet:`لسه مفيش جدول متسجل.`,noResHint:`مفيش نتيجة. جرّب جزء تاني من الاسم أو الكود.`,noData:`لسه مفيش بيانات متسجلة.`,more:`عرض المزيد`,
+shift:`الشيفت`,noHr:`مفيش كود HR`,next:`الجاي`,goldNote:`اللون الذهبي = بريكك الجاي.`,lastUpd:u=>`آخر تحديث: ${u}`,noBrk:`مفيش بريك متسجل ليك في جدول النهاردة.`,
+save:`حفظ`,cancel:`إلغاء`,edit:`تعديل`,del:`حذف`,addList:`إضافة للقايمة`,editBrk:`تعديل البريكات`,
+confirmDel:n=>`تحذف ${n} من قايمة الموظفين؟`,
+srvSaving:`جاري الحفظ على السيرفر…`,srvSaved:`تم الحفظ على السيرفر وبقى ظاهر للكل.`,srvPwRej:`الرقم السري مش مقبول. اقفل Admin وادخل تاني.`,srvFail:`الحفظ فشل. جرّب تاني.`,srvNone:`مقدرتش أوصل للسيرفر. جرّب تاني.`,
+hrDup:n=>`الكود ده مستخدم عند ${n}`,
+pwNeed:s=>`لسه مفيش رقم سري. اكتب رقم سري جديد (6 حروف أو أرقام على الأقل) واضغط حفظ. `+(s?`وأي تعديل بتعمله هيتحفظ على السيرفر تلقائيًا.`:`بعد ما تخلّص تعديلاتك نزّل الملف المحدّث وارفعه على الاستضافة.`),
+pwEnter:`اكتب الرقم السري عشان تفتح Admin.`,pwPh:`الرقم السري`,pwSet:`حفظ الرقم السري`,pwOpen:`فتح`,showPw:`إظهار الرقم أثناء الكتابة`,pw6:`الرقم السري لازم يكون 6 حروف أو أرقام على الأقل.`,checking:`جاري التحقق…`,pwWrong:`الرقم السري غلط.`,problem:`حصلت مشكلة. جرّب تاني.`,
+unsaved:`فيه تعديلات لسه متنزّلتش. دوس "تنزيل النسخة المحدّثة" وارفع الملف على الاستضافة عشان تظهر للكل.`,
+adminStat:(d,nb,nd,nc,un)=>`${d?`جدول يوم ${esc(d)}: ${ar(nb)} بريك.`:`لسه مفيش جدول.`} ${ar(nd)} موظف في القايمة، منهم ${ar(nc)} من غير كود HR.${un?` وفيه ${ar(un)} اسم في الجدول مش في القايمة.`:``}`,
+addMissing:`إضافة الأسماء الناقصة للقايمة`,
+brkTitle:`البريكات`,
+genHint:`اختار التاريخ وادوس "ولّد من قايمة الموظفين الحالية" (بتستخدم دخول وخروج كل موظف في القايمة)، أو ارفع ملف الشيفتات من "رفع ملفات". القواعد: ١٥ دقيقة لكل ٤ ساعات، وكل بريك بعد ساعتين وربع لحد ٣ ونص من اللي قبله، ومفيش اتنين من WA أو Allianz مع بعض، وHotline اتنين بس لو مفيش حل تاني. الجدول الجديد بيستبدل القديم. ولتعديل بريكات موظف بإيدك دوس "تعديل البريكات" في كارته.`,
+dateLbl:`تاريخ الجدول`,genCur:`ولّد من قايمة الموظفين الحالية`,xlsBtn:`تنزيل البريكات (Excel)`,
+upTitle:`رفع ملفات (اختياري)`,shiftFile:`ملف الشيفتات`,shiftHint:`ارفع ملف الشيفتات (Name, In, Out, Group) والصفحة تحدّث الموظفين وتولّد البريكات للتاريخ المختار.`,
+upDay:`رفع جدول اليوم`,upHint:`ارفع جدول اليوم (BreakSchedule…xlsx) وهيستبدل جدول امبارح. أو ارفع ملف أسماء وأكواد (Name, HR Code…) وهيتدمج مع القايمة. الصفحة بتعرف نوع الملف لوحدها، وقايمة الأسماء والأكواد بتفضل زي ما هي لما تغيّر الجدول.`,fileLbl:`ملف`,
+tpl:`تنزيل قايمة الموظفين (CSV) لإضافة الأكواد`,
+addEmp:`إضافة موظف`,editEmp:`تعديل موظف`,lName:`الاسم *`,lHr:`كود HR`,lGrp:`المجموعة`,lIn:`دخول (اختياري)`,lOut:`خروج (اختياري)`,add:`إضافة`,saveEdit:`حفظ التعديل`,
+dlBackup:`تنزيل نسخة احتياطية`,dlUpd:`تنزيل النسخة المحدّثة`,lock:`قفل Admin`,
+chPw:`تغيير الرقم السري`,newPwPh:`رقم سري جديد (6 أو أكتر)`,newPwLbl:`رقم سري جديد`,saveNewPw:`حفظ الرقم الجديد`,
+pw6b:`الرقم السري لازم يكون 6 على الأقل.`,saving:`جاري الحفظ…`,pwSaved:`الرقم الجديد اتحفظ.`,pwChgFail:`مقدرتش أغيّر الرقم. جرّب تاني.`,pwSavedDl:`الرقم الجديد اتحفظ. نزّل النسخة المحدّثة وارفعها.`,
+enterName:`اكتب الاسم.`,timeFmt:`اكتب الوقت بالشكل ده: 08:00`,nameDup:`الاسم ده موجود بالفعل. استخدم تعديل بدل إضافة.`,hrUsed:n=>`الكود ده مستخدم عند ${n}.`,savedEdit:`اتحفظ التعديل.`,added:`اتضاف الموظف. ممكن تضيف اللي بعده.`,
+errHdr:`مش لاقي صف العناوين (Break time)`,errZip:`الملف مش xlsx سليم`,errOld:`المتصفح ده قديم. استخدم Edge أو Chrome حديث، أو احفظ الملف CSV`,errNoSheet:`مفيش شيت في الملف`,errNoData:`مش لاقي بيانات الشيت`,errFmt:`الصيغة دي مش مدعومة. احفظ الملف بصيغة xlsx أو csv`,errNoBrk:`مفيش بريكات في الجدول ده`,errEmpty:`الملف فاضي`,errName:`مش لاقي عمود الاسم (Name)`,errNoShift:`مفيش موظفين ليهم وقت دخول وخروج في الملف`,errNoShiftL:`مفيش موظفين ليهم وقت دخول وخروج في القايمة.`,errGen:`خطأ`,
+reading:`جاري قراءة الملف…`,readFail:m=>`مقدرتش أقرأ الملف: ${m}`,
+schedSaved:(d,n,un,s)=>`اتسجّل جدول ${d||`اليوم`}: ${ar(n)} بريك.${un?` فيه ${ar(un)} اسم مش في قايمة الموظفين، دوس "إضافة الأسماء الناقصة".`:``} ${s?``:`متنساش تنزّل النسخة المحدّثة.`}`,
+rosterUpd:(up,ad,s)=>`اتحدّث ${ar(up)} موظف واتضاف ${ar(ad)} جديد. ${s?``:`متنساش تنزّل النسخة المحدّثة.`}`,
+rosterPre:(up,ad)=>`اتحدّث ${ar(up)} موظف واتضاف ${ar(ad)} جديد. `,
+remind:`متنساش تنزّل النسخة المحدّثة.`,
+genNone:`مفيش بريكات اتولّدت. اتأكد إن الشيفتات ٤ ساعات أو أكتر.`,
+genDone:(d,nb,n)=>`اتولّد جدول ${d}: ${ar(nb)} بريك لـ ${ar(n)} موظف.`,genSkip:n=>`${ar(n)} موظف شيفتهم أقل من ٤ ساعات فمن غير بريك.`,genEx:n=>`فيه ${ar(n)} وقت خرج فيه اتنين من WA أو Allianz مع بعض.`,genNoEx:`مفيش اتنين من WA أو Allianz خرجوا مع بعض.`,genHot:(h2,h3)=>`Hotline: ${ar(h2)} وقت خرج فيه اتنين${h3?`، و${ar(h3)} وقت خرج فيه تلاتة أو أكتر لأن القواعد دي مش بتسمح بأحسن من كده`:``}.`,genHotNone:`Hotline: ماحدش خرج مع حد.`,
+dlDone:`اتنزّل الملف المحدّث. ارفعه على الاستضافة مكان القديم بنفس الاسم.`,
+ebTimeLbl:`وقت البريك`,ebDurLbl:`المدة بالدقايق`,ebMin:`دقيقة`,ebDel:`حذف البريك`,ebAdd:`+ إضافة بريك`,ebDur:`المدة لازم تكون بين ١ و١٢٠ دقيقة.`,ebDup:`فيه بريكين في نفس الوقت.`,ebConf:l=>`فيه تعارض مع: ${l.join(`، `)}.\nتحفظ برضه؟`,
+xNone:`مفيش جدول بريكات للتنزيل.`,xDone:`اتنزّل ملف الإكسيل.`,xBreaks:`البريكات`,xAgent:`حسب الموظف`,xTitle:d=>`جدول البريكات ${d}`,xName:`الاسم`,xGroup:`المجموعة`,xHr:`كود HR`,xIn:`دخول`,xOut:`خروج`,xBrk:`بريك`,
+xBoard:`الجدول`,xTime:`الوقت`,xiBtn:`تنزيل البريكات (صورة)`,imgSub:(nb,n)=>`${ar(nb)} بريك · ${ar(n)} موظف`,imgDone:`اتنزّلت الصورة.`,
+genRelax:n=>`${n} مقدروش يلتزموا بكل القواعد (البريك بين 9:15 و23:45 مع المسافة المطلوبة)، فبريكاتهم اتظبطت لأقرب حاجة. راجعهم من "تعديل البريكات".`
+,ghTitle:`النشر على GitHub`,ghHint:`بتنشر الجدول من Admin على موقعك المجاني، والكل يفتح نفس اللينك. اكتب اسم حسابك على GitHub واسم المستودع والتوكن (بيتحفظوا على جهازك بس).`,ghUser:`اسم حساب GitHub`,ghRepo:`اسم المستودع (repo)`,ghToken:`التوكن (Token)`,ghSave:`حفظ الإعدادات`,ghClear:`مسح الإعدادات`,ghSaved:`اتحفظت. من دلوقتي أي تعديل تعمله هيتنشر لوحده تلقائيًا ويظهر للكل.`,ghMissing:`اكتب اسم الحساب والمستودع والتوكن.`,ghOk:`اتنشرت على GitHub. هتظهر للكل خلال دقيقة أو اتنين.`,ghAuth:`التوكن مش مقبول أو منتهي. افتح قسم "النشر على GitHub" تحت، امسح التوكن القديم وحط توكن جديد (صلاحية Contents: Read and write)، وادوس "نشر التعديلات" تاني.`,ghNF:`مش لاقي المستودع، أو التوكن مالوش صلاحية عليه (Contents: Read and write).`,ghFail:`النشر فشل. اتأكد من الإنترنت وجرّب تاني.`
+,pubBtn:`نشر التعديلات`,pubUnsaved:`فيه تعديلات جديدة. بتتنشر تلقائيًا خلال ثواني، أو دوس "نشر التعديلات" لو عايز تسرّعها.`,pubWait:`جاري النشر…`,pubOk:`اتنشرت. الصفحة هتتحدّث عند كل اللي فاتحينها.`,pubNoRight:`مفيش عندك صلاحية النشر. لازم تكون صاحب الصفحة أو محرر فيها.`,pubConflict:`حد تاني نشر نسخة جديدة الأول. الصفحة هتتحدّث، راجع تعديلاتك وانشر تاني.`,pubFail:`النشر فشل. جرّب تاني.`
+},
+en:{
+title:`Break Schedule`,themeLbl:`Toggle dark mode`,
+sched:d=>`Schedule for ${d}`,noSched:`No schedule yet`,notToday:`This isn't today's schedule`,
+statEmp:n=>`<b>${ar(n)}</b> employees`,statBrk:n=>`<b>${ar(n)}</b> breaks`,
+searchPh:`Search by name or HR code`,searchLbl:`Search`,
+vP:`Individual breaks`,vF:`Full schedule`,searchIn:`Search in`,mAll:`All`,mName:`Name`,mHr:`HR code`,
+all:`All`,noHrF:`No HR code`,sep:`, `,
+results:n=>`${ar(n)} ${n===1?`result`:`results`}`,fullHdr:d=>`Schedule for ${d}`,
+noRes:`No results.`,noSchedYet:`No schedule has been recorded yet.`,noResHint:`No results. Try another part of the name or code.`,noData:`No data recorded yet.`,more:`Show more`,
+shift:`Shift`,noHr:`No HR code`,next:`Next`,goldNote:`Gold = your next break.`,lastUpd:u=>`Last updated: ${u}`,noBrk:`No break is recorded for you in this schedule.`,
+save:`Save`,cancel:`Cancel`,edit:`Edit`,del:`Delete`,addList:`Add to list`,editBrk:`Edit breaks`,
+confirmDel:n=>`Remove ${n} from the employee list?`,
+srvSaving:`Saving to the server…`,srvSaved:`Saved to the server and now visible to everyone.`,srvPwRej:`Password not accepted. Lock Admin and sign in again.`,srvFail:`Saving failed. Try again.`,srvNone:`Couldn't reach the server. Try again.`,
+hrDup:n=>`That code is already used by ${n}`,
+pwNeed:s=>`No password set yet. Enter a new password (at least 6 letters or digits) and press Save. `+(s?`Any change you make will be saved to the server automatically.`:`When you finish editing, download the updated file and upload it to your hosting.`),
+pwEnter:`Enter the password to open Admin.`,pwPh:`Password`,pwSet:`Save password`,pwOpen:`Open`,showPw:`Show password while typing`,pw6:`The password must be at least 6 letters or digits.`,checking:`Checking…`,pwWrong:`Wrong password.`,problem:`Something went wrong. Try again.`,
+unsaved:`You have changes that haven't been downloaded. Press "Download updated copy" and upload the file to your hosting so everyone sees them.`,
+adminStat:(d,nb,nd,nc,un)=>`${d?`Schedule for ${esc(d)}: ${ar(nb)} breaks.`:`No schedule yet.`} ${ar(nd)} employees on the list, ${ar(nc)} without an HR code.${un?` ${ar(un)} names in the schedule aren't on the list.`:``}`,
+addMissing:`Add the missing names to the list`,
+brkTitle:`Breaks`,
+genHint:`Pick the date and press "Generate from the current employee list" (it uses each employee's in/out times), or upload a shifts file under "Upload files". Rules: 15 minutes per 4 hours; each break starts 2h15 to 3h30 after the previous one; never two WA or two Allianz together; two Hotline only when there is no other way. The new schedule replaces the old one. To change someone's breaks by hand, press "Edit breaks" on their card.`,
+dateLbl:`Schedule date`,genCur:`Generate from the current employee list`,xlsBtn:`Download breaks (Excel)`,
+upTitle:`Upload files (optional)`,shiftFile:`Shifts file`,shiftHint:`Upload a shifts file (Name, In, Out, Group). The page updates the employees and generates the breaks for the selected date.`,
+upDay:`Upload today's schedule`,upHint:`Upload today's schedule (BreakSchedule…xlsx) and it replaces yesterday's. Or upload a names and codes file (Name, HR Code…) and it is merged into the list. The page detects the file type by itself, and the names and codes list stays as it is when you change the schedule.`,fileLbl:`File`,
+tpl:`Download the employee list (CSV) to add codes`,
+addEmp:`Add employee`,editEmp:`Edit employee`,lName:`Name *`,lHr:`HR code`,lGrp:`Group`,lIn:`In (optional)`,lOut:`Out (optional)`,add:`Add`,saveEdit:`Save changes`,
+dlBackup:`Download backup`,dlUpd:`Download updated copy`,lock:`Lock Admin`,
+chPw:`Change password`,newPwPh:`New password (6 or more)`,newPwLbl:`New password`,saveNewPw:`Save new password`,
+pw6b:`The password must be at least 6 characters.`,saving:`Saving…`,pwSaved:`New password saved.`,pwChgFail:`Couldn't change the password. Try again.`,pwSavedDl:`New password saved. Download the updated copy and upload it.`,
+enterName:`Enter a name.`,timeFmt:`Enter the time like this: 08:00`,nameDup:`That name already exists. Use Edit instead of Add.`,hrUsed:n=>`That code is already used by ${n}.`,savedEdit:`Changes saved.`,added:`Employee added. You can add the next one.`,
+errHdr:`Couldn't find the header row (Break time)`,errZip:`This isn't a valid xlsx file`,errOld:`This browser is too old. Use a recent Edge or Chrome, or save the file as CSV`,errNoSheet:`The file has no sheet`,errNoData:`Couldn't find the sheet data`,errFmt:`This format isn't supported. Save the file as xlsx or csv`,errNoBrk:`This schedule has no breaks`,errEmpty:`The file is empty`,errName:`Couldn't find the Name column`,errNoShift:`No employees with in and out times in the file`,errNoShiftL:`No employees with in and out times on the list.`,errGen:`Error`,
+reading:`Reading the file…`,readFail:m=>`Couldn't read the file: ${m}`,
+schedSaved:(d,n,un,s)=>`Schedule ${d||`for today`} saved: ${ar(n)} breaks.${un?` ${ar(un)} names aren't on the employee list. Press "Add the missing names".`:``} ${s?``:`Don't forget to download the updated copy.`}`,
+rosterUpd:(up,ad,s)=>`Updated ${ar(up)} employees and added ${ar(ad)} new. ${s?``:`Don't forget to download the updated copy.`}`,
+rosterPre:(up,ad)=>`Updated ${ar(up)} employees and added ${ar(ad)} new. `,
+remind:`Don't forget to download the updated copy.`,
+genNone:`No breaks were generated. Make sure the shifts are 4 hours or longer.`,
+genDone:(d,nb,n)=>`Generated the ${d} schedule: ${ar(nb)} breaks for ${ar(n)} employees.`,genSkip:n=>`${ar(n)} employees have shifts under 4 hours, so no break.`,genEx:n=>`${ar(n)} time slots have two WA or two Allianz out together.`,genNoEx:`No two WA or two Allianz are out together.`,genHot:(h2,h3)=>`Hotline: two out together in ${ar(h2)} time slots${h3?`, and three or more in ${ar(h3)} because these rules don't allow better`:``}.`,genHotNone:`Hotline: nobody is out together.`,
+dlDone:`Updated file downloaded. Upload it to your hosting in place of the old one, with the same name.`,
+ebTimeLbl:`Break time`,ebDurLbl:`Duration in minutes`,ebMin:`min`,ebDel:`Delete break`,ebAdd:`+ Add break`,ebDur:`Duration must be between 1 and 120 minutes.`,ebDup:`Two breaks have the same time.`,ebConf:l=>`Conflicts with: ${l.join(`, `)}.\nSave anyway?`,
+xNone:`There is no break schedule to download.`,xDone:`Excel file downloaded.`,xBreaks:`Breaks`,xAgent:`By agent`,xTitle:d=>`Break schedule ${d}`,xName:`Name`,xGroup:`Group`,xHr:`HR code`,xIn:`In`,xOut:`Out`,xBrk:`Break`,
+xBoard:`Board`,xTime:`Time`,xiBtn:`Download breaks (image)`,imgSub:(nb,n)=>`${ar(nb)} breaks · ${ar(n)} employees`,imgDone:`Image downloaded.`,
+genRelax:n=>`${n} couldn't fit all the rules (breaks between 9:15 and 23:45 with the required spacing), so their breaks were adjusted as close as possible. Review them with "Edit breaks".`
+,ghTitle:`Publish via GitHub`,ghHint:`Publishes the schedule from Admin to your free site, and everyone opens the same link. Enter your GitHub username, the repository name and the token (they are kept on this device only).`,ghUser:`GitHub username`,ghRepo:`Repository name`,ghToken:`Access token`,ghSave:`Save settings`,ghClear:`Clear settings`,ghSaved:`Saved. From now on every change you make publishes by itself and appears to everyone.`,ghMissing:`Enter the username, repository and token.`,ghOk:`Published to GitHub. Everyone will see it within a minute or two.`,ghAuth:`The token was rejected or has expired. Open the "Publish via GitHub" section below, replace it with a new token (Contents: Read and write), then publish again.`,ghNF:`Repository not found, or the token has no access to it (Contents: Read and write).`,ghFail:`Publishing failed. Check your connection and try again.`
+,pubBtn:`Publish changes`,pubUnsaved:`You have new changes. They publish automatically in a few seconds, or press "Publish changes" to speed it up.`,pubWait:`Publishing…`,pubOk:`Published. The page will refresh for everyone who has it open.`,pubNoRight:`You don't have permission to publish. You must be the page owner or an editor.`,pubConflict:`Someone else published a new version first. The page will refresh, review your changes and publish again.`,pubFail:`Publishing failed. Try again.`
+}};
+const _t=(k,...a)=>{const v=(LG[lang]&&LG[lang][k])??LG.ar[k];return typeof v==='function'?v(...a):v};
+function applyLang(){
+  const r=document.documentElement;r.lang=lang;r.dir=lang==='ar'?'rtl':'ltr';
+  document.title=_t('title');$('#brand').textContent=_t('title');
+  $('#theme').setAttribute('aria-label',_t('themeLbl'));
+  const b=$('#lang');b.textContent=lang==='ar'?'EN':'ع';b.setAttribute('aria-label',lang==='ar'?'Switch to English':'التبديل إلى العربية');b.lang=lang==='ar'?'en':'ar';
+}
+function setLang(l){lang=l;try{localStorage.setItem('lg',l)}catch(e){}applyLang();build();if(unlocked)drawAdmin()}
+
+/* ---------- sha-256 (works on plain http too) ---------- */
+const K=[],H0=[];
+(()=>{let n=2,c=0;while(c<64){let p=1;for(let i=2;i*i<=n;i++)if(n%i===0){p=0;break}if(p){if(c<8)H0[c]=Math.floor((Math.sqrt(n)%1)*4294967296);K[c]=Math.floor((Math.cbrt(n)%1)*4294967296);c++}n++}})();
+function sha256(by){
+  const l=by.length,nb=((l+8)>>6)+1,W=new Uint32Array(nb*16),w=new Uint32Array(64);
+  for(let i=0;i<l;i++)W[i>>2]|=by[i]<<(24-8*(i&3));
+  W[l>>2]|=0x80<<(24-8*(l&3));W[nb*16-1]=l*8;
+  let h=H0.slice();
+  for(let k=0;k<nb;k++){
+    for(let i=0;i<16;i++)w[i]=W[k*16+i];
+    for(let i=16;i<64;i++){const a=w[i-15],c=w[i-2];w[i]=(w[i-16]+(((a>>>7)|(a<<25))^((a>>>18)|(a<<14))^(a>>>3))+w[i-7]+(((c>>>17)|(c<<15))^((c>>>19)|(c<<13))^(c>>>10)))>>>0}
+    let [a,b,c,d,e,f,g,q]=h;
+    for(let i=0;i<64;i++){
+      const t1=(q+(((e>>>6)|(e<<26))^((e>>>11)|(e<<21))^((e>>>25)|(e<<7)))+((e&f)^(~e&g))+K[i]+w[i])>>>0;
+      const t2=((((a>>>2)|(a<<30))^((a>>>13)|(a<<19))^((a>>>22)|(a<<10)))+((a&b)^(a&c)^(b&c)))>>>0;
+      q=g;g=f;f=e;e=(d+t1)>>>0;d=c;c=b;b=a;a=(t1+t2)>>>0;
+    }
+    h=[h[0]+a,h[1]+b,h[2]+c,h[3]+d,h[4]+e,h[5]+f,h[6]+g,h[7]+q].map(x=>x>>>0);
+  }
+  const o=new Uint8Array(32);h.forEach((x,i)=>{o[4*i]=x>>>24;o[4*i+1]=(x>>>16)&255;o[4*i+2]=(x>>>8)&255;o[4*i+3]=x&255});return o;
+}
+const u8=s=>new TextEncoder().encode(s),hx=a=>[...a].map(x=>x.toString(16).padStart(2,'0')).join(''),unh=h=>Uint8Array.from(h.match(/../g)||[],x=>parseInt(x,16));
+const cat=(a,b)=>{const o=new Uint8Array(a.length+b.length);o.set(a);o.set(b,a.length);return o};
+function kdf(pw,saltHex){const s=unh(saltHex);let d=sha256(cat(s,u8(pw)));for(let i=0;i<20000;i++)d=sha256(cat(d,s));return hx(d)}
+const wait=()=>new Promise(r=>setTimeout(r,30));
+
+/* ---------- page skeleton ---------- */
+let app,PE=new Map(),UN=[];
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const fmtU=u=>{try{const d=new Date(u);return isNaN(d)?'':d.toLocaleString(lang==='ar'?'ar-EG':'en-US',{weekday:'long',day:'numeric',month:'long',hour:'numeric',minute:'2-digit'})}catch(e){return ''}};
+const yday=()=>{const d=new Date();d.setDate(d.getDate()-1);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const rl=t=>(mm(t)-(D.b.base||0)+1440)%1440;
+const ab=t=>mm(t)<(D.b.base||0)?mm(t)+1440:mm(t);
+function nowOf(){const n=new Date(),m=n.getHours()*60+n.getMinutes(),b=D.b.base||0;if(D.b.date===today())return m;if(b&&D.b.date===yday()&&m<b)return m+1440;return null}
+const slots=n=>D.b.r.filter(x=>nz(x[2])===nz(n)).sort((a,b)=>rl(a[0])-rl(b[0]));
+function index(){
+  PE=new Map();D.d.forEach((r,i)=>PE.set(nz(r[0]),{r,i,u:0}));UN=[];
+  D.b.r.forEach(x=>{const k=nz(x[2]);if(!PE.has(k)){const o={r:[x[2],'','','',x[1]],i:-1,u:1};PE.set(k,o);UN.push(o)}});
+}
+function stats(){
+  const bd=D.b.date?new Date(D.b.date+'T12:00:00').toLocaleDateString(lang==='ar'?'ar-EG':'en-US',{weekday:'long',day:'numeric',month:'long',year:'numeric'}):'';
+  $('#stt').innerHTML=`<h1>${bd?_t('sched',bd):_t('noSched')}</h1><ul class="stats">${D.b.date&&nowOf()===null?`<li class="warn">${_t('notToday')}</li>`:''}<li>${_t('statEmp',PE.size)}</li>${D.b.r.length?`<li>${_t('statBrk',D.b.r.length)}</li>`:''}</ul>${D.u?`<p class="hint" style="margin:6px 0 0">${_t('lastUpd',fmtU(D.u))}</p>`:''}`;
+}
+function ebStart(name){
+  const o=PE.get(nz(name));if(!o)return;const sl=slots(name);
+  eb={key:nz(name),name:o.r[0],g:(sl[0]&&sl[0][1])||o.r[4]||'',rows:sl.map(x=>({t:x[0],d:x[3]||'15'}))};
+  if(!eb.rows.length)eb.rows.push({t:'',d:'15'});
+  draw();
+}
+function build(){
+  index();app=$('#app');
+  app.innerHTML=`<section class="intro"><div class="wrap" id="stt"></div></section>
+<div class="finder"><div class="wrap"><div class="sb"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg><input id="q" type="search" placeholder="${esc(_t('searchPh'))}" autocomplete="off" aria-label="${esc(_t('searchLbl'))}"></div></div></div>
+<div class="wrap"><div class="panel"><div class="pnh"><div class="seg" id="vseg"></div><div class="seg" id="gseg"></div><div class="meta"><p class="cnt" id="cnt" aria-live="polite"></p><div class="seg" id="mseg"></div></div></div><div id="res"></div></div>
+<div id="adm"></div><p class="foot"><button class="btn" id="adl">Admin</button></p></div>`;
+  $('#q').value=st.q;
+  stats();
+  $('#vseg').innerHTML=[['p',_t('vP')],['f',_t('vF')]].map(([k,l])=>`<button class="sg" data-v="${k}" aria-pressed="${st.v===k}">${l}</button>`).join('');
+  $('#mseg').innerHTML=`<span class="ml">${_t('searchIn')}</span>`+[['all',_t('mAll')],['name',_t('mName')],['hr',_t('mHr')]].map(([k,l])=>`<button class="sg" data-m="${k}" aria-pressed="${st.m===k}">${l}</button>`).join('');
+  $('#q').oninput=e=>{st.q=e.target.value;st.lim=40;draw()};
+  $('#mseg').onclick=e=>{const b=e.target.closest('[data-m]');if(!b)return;st.m=b.dataset.m;st.lim=40;$('#mseg').querySelectorAll('.sg').forEach(x=>x.setAttribute('aria-pressed',x.dataset.m===st.m));draw()};
+  $('#vseg').onclick=e=>{const b=e.target.closest('[data-v]');if(!b)return;st.v=b.dataset.v;st.lim=40;$('#vseg').querySelectorAll('.sg').forEach(x=>x.setAttribute('aria-pressed',x.dataset.v===st.v));draw()};
+  $('#gseg').onclick=e=>{const b=e.target.closest('[data-g]');if(!b)return;st.g=b.dataset.g;st.lim=40;draw()};
+  $('#res').onclick=e=>{
+    const b=e.target.closest('button');if(!b)return;
+    if(b.id==='mr'){st.lim+=40;draw()}
+    else if(b.dataset.ed!==undefined){edit=+b.dataset.ed;drawAdmin();$('#adm').scrollIntoView({behavior:'smooth'})}
+    else if(b.dataset.del!==undefined){const r=D.d[+b.dataset.del];if(r&&confirm(_t('confirmDel',r[0]))){D.d.splice(+b.dataset.del,1);touch();edit=-1;upd()}}
+    else if(b.dataset.hs!==undefined)saveHR(b.dataset.hs);
+    else if(b.dataset.au!==undefined){const o=PE.get(nz(b.dataset.au));if(o&&o.u){D.d.push(o.r.slice());touch();upd()}}
+    else if(b.dataset.eb!==undefined)ebStart(b.dataset.eb);
+    else if(b.dataset.eba!==undefined&&eb){eb.rows.push({t:'',d:'15'});draw()}
+    else if(b.dataset.ebx!==undefined&&eb){eb.rows.splice(+b.dataset.ebx,1);draw()}
+    else if(b.dataset.ebc!==undefined){eb=null;draw()}
+    else if(b.dataset.ebs!==undefined)ebSave();
+  };
+  $('#res').addEventListener('input',e=>{const el=e.target;if(!eb||el.dataset.i===undefined)return;const r=eb.rows[+el.dataset.i];if(!r)return;if(el.classList.contains('ebt'))r.t=el.value;else if(el.classList.contains('ebm'))r.d=el.value});
+  $('#res').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.classList.contains('hri'))saveHR(e.target.dataset.hn)});
+  $('#adl').onclick=()=>{lockUI();$('#adm').scrollIntoView({behavior:'smooth'})};
+  $('#adm').onclick=admClick;
+  $('#adm').onchange=e=>{if(e.target.id==='fl'&&e.target.files[0])readFile(e.target.files[0]);else if(e.target.id==='gf'&&e.target.files[0])genFile(e.target.files[0]);else if(e.target.id==='gd')GD=e.target.value};
+  $('#adm').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='pi')lockGo()});
+  draw();
+}
+const upd=()=>{index();stats();draw();drawAdmin()};
+
+/* ---------- search + list ---------- */
+function matchP(o,terms){
+  if(st.g==='__nc'){if(o.r[1])return false}else if(st.g&&o.r[4]!==st.g)return false;
+  if(!terms.length)return true;
+  const b=st.m==='name'?nz(o.r[0]):st.m==='hr'?nz(o.r[1]):nz(o.r[0]+' '+o.r[1]+' '+o.r[4]);
+  return terms.every(t=>b.includes(t));
+}
+function card(o){
+  const [n,h,a,b,g]=o.r,sl=slots(n),nowM=nowOf(),isT=nowM!==null,ed=unlocked&&eb&&eb.key===nz(n);
+  let seen=false,anyNx=false;
+  const chips=sl.map(x=>{let c='';if(isT){if(ab(x[0])+15<=nowM)c='past';else if(!seen){c='nx';seen=anyNx=true}}return `<span class="bt ${c}" dir="ltr" data-nx="${esc(_t('next'))}">${x[0]}${x[3]?`<small>${x[3]}m</small>`:''}</span>`}).join('');
+  const editor=ed?`<div class="ebx">${eb.rows.map((r,i)=>`<div class="ebr"><input class="ebt" data-i="${i}" type="time" value="${esc(r.t)}" dir="ltr" aria-label="${esc(_t('ebTimeLbl'))}"><label class="ebd"><input class="ebm" data-i="${i}" type="number" min="1" max="120" value="${esc(r.d)}" dir="ltr" aria-label="${esc(_t('ebDurLbl'))}"><span>${_t('ebMin')}</span></label><button class="btn rm" data-ebx="${i}" aria-label="${esc(_t('ebDel'))}">×</button></div>`).join('')}<div class="tb"><button class="btn" data-eba>${_t('ebAdd')}</button><button class="btn pri" data-ebs>${_t('save')}</button><button class="btn" data-ebc>${_t('cancel')}</button></div><div id="ebm"></div></div>`:'';
+  const body=ed?editor:(sl.length?`<div class="bk">${chips}</div>${anyNx?`<div class="loc"><span>${_t('goldNote')}</span></div>`:''}`:D.b.r.length?`<div class="loc"><span>${_t('noBrk')}</span></div>`:'');
+  return `<article class="p"><div><h3>${esc(n)}</h3><div class="chips">${g?`<span class="chip s">${esc(g)}</span>`:''}${h?`<span class="chip" dir="ltr">HR ${esc(h)}</span>`:`<span class="chip">${_t('noHr')}</span>`}${a&&b?`<span class="chip">${_t('shift')} <bdi dir="ltr">${a} – ${b}</bdi></span>`:''}</div>
+${body}</div>
+${unlocked?`<div class="tm"><div class="hrw"><input class="hri" data-hn="${esc(n)}" value="${esc(h)}" placeholder="HR Code" dir="ltr" aria-label="HR Code"><button class="btn pri" data-hs="${esc(n)}">${_t('save')}</button></div><div class="act" style="flex-direction:row">${o.i>=0?`<button class="btn" data-ed="${o.i}">${_t('edit')}</button><button class="btn rm" data-del="${o.i}">${_t('del')}</button>`:`<button class="btn" data-au="${esc(n)}">${_t('addList')}</button>`}${ed?'':`<button class="btn" data-eb="${esc(n)}">${_t('editBrk')}</button>`}</div></div>`:''}</article>`;
+}
+function draw(){
+  const terms=nz(st.q).trim().split(' ').filter(Boolean),gs={};
+  PE.forEach(o=>{if(o.r[4])gs[o.r[4]]=(gs[o.r[4]]||0)+1});
+  if(st.g==='__nc'&&!unlocked)st.g='';
+  const nc=[...PE.values()].filter(o=>!o.r[1]).length;
+  $('#gseg').innerHTML=[['',PE.size,_t('all')],...Object.entries(gs).map(([g,c])=>[g,c,g]),...(unlocked?[['__nc',nc,_t('noHrF')]]:[])].map(([g,c,l])=>`<button class="sg" data-g="${esc(g)}" aria-pressed="${st.g===g}">${esc(l)}<small>${ar(c)}</small></button>`).join('');
+  if(st.v==='f'){
+    const by={};D.b.r.forEach(x=>{(by[x[0]]=by[x[0]]||[]).push(x)});
+    const times=Object.keys(by).sort((a,b)=>rl(a)-rl(b)),grp=[...new Set(D.b.r.map(x=>x[1]))];
+    const html=times.map(t=>{
+      const xs=by[t].filter(x=>{const o=PE.get(nz(x[2]));return o&&matchP(o,terms)});if(!xs.length)return '';
+      return `<div class="tr"><b dir="ltr">${t}</b><div class="tg">${grp.map(g=>{const ns=xs.filter(x=>x[1]===g);return ns.length?`<div><span class="chip s">${esc(g)}</span> ${ns.map(x=>esc(x[2])+(x[3]?` <small dir="ltr">${x[3]}m</small>`:'')).join(_t('sep'))}</div>`:''}).join('')}</div></div>`}).join('');
+    $('#cnt').textContent=D.b.r.length?_t('fullHdr',D.b.date||''):'';
+    $('#res').innerHTML=html||`<div class="note">${D.b.r.length?_t('noRes'):_t('noSchedYet')}</div>`;
+    return;
+  }
+  const L=[...PE.values()].filter(o=>matchP(o,terms)).sort((a,b)=>a.r[0].localeCompare(b.r[0],'en',{sensitivity:'base'}));
+  $('#cnt').textContent=_t('results',L.length);
+  $('#res').innerHTML=L.length?L.slice(0,st.lim).map(card).join('')+(L.length>st.lim?`<div class="more"><button class="btn" id="mr">${_t('more')}</button></div>`:''):`<div class="note">${PE.size?_t('noResHint'):_t('noData')}</div>`;
+}
+
+/* ---------- server storage (api.php) ---------- */
+let SRV=false,SRVPW=false,PW='',saving=0;
+async function api(action,body){
+  const r=await fetch('api.php?action='+action,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,pw:PW,...body})});
+  let j={};try{j=await r.json()}catch(e){}j.status=r.status;return j;
+}
+function touch(){dirty=true;if(SRV)persist();else autoPub()}
+let autoT=null,pubBusy=false;
+function autoPub(){if(!unlocked||PUB||!ghOk())return;clearTimeout(autoT);autoT=setTimeout(()=>{autoT=null;publishNow()},2500)}
+async function persist(){
+  const el=()=>$('#sv-st');saving++;
+  if(el())el().innerHTML=`<p class="hint">${_t('srvSaving')}</p>`;
+  try{
+    const j=await api('save',{data:{u:new Date().toISOString(),d:D.d,b:D.b}});saving--;
+    if(j.ok){if(!saving)dirty=false;D.u=j.u||D.u;if(el())el().innerHTML=`<p class="hint">${_t('srvSaved')}</p>`}
+    else if(el())el().innerHTML='<p class="hint err">'+(j.status===403?_t('srvPwRej'):_t('srvFail'))+'</p>';
+  }catch(e){saving--;if(el())el().innerHTML=`<p class="hint err">${_t('srvNone')}</p>`}
+}
+function saveHR(name){
+  const inp=[...document.querySelectorAll('.hri')].find(x=>x.dataset.hn===name),o=PE.get(nz(name));if(!inp||!o)return;
+  const v=inp.value.trim().replace(/\s+/g,' ');
+  if(v){const dup=D.d.findIndex(r=>r[1]&&nz(r[1])===nz(v)&&nz(r[0])!==nz(name));if(dup>=0){alert(_t('hrDup',D.d[dup][0]));return}}
+  if(o.i>=0)D.d[o.i][1]=v;else D.d.push([o.r[0],v,'','',o.r[4]]);
+  touch();upd();
+}
+
+/* ---------- admin: lock ---------- */
+function lockUI(){
+  if(unlocked){drawAdmin();return}
+  const need=SRV?!SRVPW:!D.h;
+  $('#adm').innerHTML=`<details class="side" open><summary><span>Admin</span></summary><p class="hint">${need?_t('pwNeed',SRV):_t('pwEnter')}</p><div class="fg"><input id="pi" type="password" autocomplete="${need?'new-password':'current-password'}" placeholder="${esc(_t('pwPh'))}" aria-label="${esc(_t('pwPh'))}"><button class="btn pri" id="pg">${need?_t('pwSet'):_t('pwOpen')}</button></div><label class="chk"><input type="checkbox" id="sp"> ${_t('showPw')}</label><div id="pe"></div></details>`;
+  setTimeout(()=>{const i=$('#pi');if(i)i.focus()},300);
+}
+async function lockGo(){
+  const v=$('#pi').value,pe=$('#pe'),need=SRV?!SRVPW:!D.h;
+  if(need&&v.length<6){pe.innerHTML=`<p class="hint err">${_t('pw6')}</p>`;return}
+  pe.innerHTML=`<p class="hint">${_t('checking')}</p>`;
+  if(SRV){
+    try{
+      const j=need?await api('setpw',{new:v}):await api('check',{pw:v});
+      if(j.ok){PW=v;SRVPW=true;unlocked=true;draw();drawAdmin();if(need)touch()}
+      else pe.innerHTML='<p class="hint err">'+(j.status===403&&!need?_t('pwWrong'):_t('problem'))+'</p>';
+    }catch(e){pe.innerHTML=`<p class="hint err">${_t('srvNone')}</p>`}
+    return;
+  }
+  await wait();
+  if(need){setPw(v);unlocked=true;draw();drawAdmin();return}
+  if(kdf(v,D.s)===D.h){unlocked=true;draw();drawAdmin()}else pe.innerHTML=`<p class="hint err">${_t('pwWrong')}</p>`;
+}
+function setPw(v){const s=new Uint8Array(16);(window.crypto&&crypto.getRandomValues)?crypto.getRandomValues(s):s.forEach((_,i)=>s[i]=Math.random()*256);D.s=hx(s);D.h=kdf(v,D.s);dirty=true}
+
+/* ---------- admin: panel ---------- */
+let upOpen=false;
+function drawAdmin(){
+  if(!unlocked)return;
+  const e=edit>=0?D.d[edit]:['','','','',''],nc=D.d.filter(r=>!r[1]).length;
+  const groups=[...new Set([...D.d.map(r=>r[4]),...D.b.r.map(x=>x[1])].filter(Boolean))];
+  const fld=(id,l,v,ph,dir)=>`<div class="f"><label for="${id}">${l}</label><input id="${id}" value="${esc(v)}" placeholder="${ph||''}" ${dir?'dir="ltr"':''} autocomplete="off"></div>`;
+  const cv='<svg class="ic cv" aria-hidden="true"><use href="#i-chev"/></svg>';
+  $('#adm').innerHTML=`<details class="side" open><summary><span>Admin</span>${cv}</summary>
+${dirty&&!SRV?`<p class="hint">${_t(PUB||ghOk()?'pubUnsaved':'unsaved')}</p>`:''}
+<div id="sv-st"></div><p class="cnt">${_t('adminStat',D.b.date,D.b.r.length,D.d.length,nc,UN.length)}</p>
+${UN.length?`<div class="tb"><button class="btn" id="au">${_t('addMissing')}</button></div>`:''}
+<h3 class="ah">${_t('brkTitle')}</h3>
+<div class="fg"><div class="f"><label for="gd">${_t('dateLbl')}</label><input id="gd" type="date" value="${esc(GD||today())}"></div></div>
+<div class="tb"><button class="btn pri" id="gr">${_t('genCur')}</button><button class="btn" id="xb">${_t('xlsBtn')}</button><button class="btn" id="xi">${_t('xiBtn')}</button></div><div id="gm"></div>
+<hr class="dv">
+<h3 class="ah">${_t('shiftFile')}</h3><div class="f"><input type="file" id="gf" accept=".xlsx,.csv" aria-label="${esc(_t('shiftFile'))}"></div>
+<hr class="dv"><h3 class="ah">${_t('upDay')}</h3><div class="f"><input type="file" id="fl" accept=".xlsx,.xls,.csv" aria-label="${esc(_t('fileLbl'))}"></div>
+<div class="tb"><button class="btn" id="tp">${_t('tpl')}</button></div><div id="um"></div>
+<hr class="dv"><h3 class="ah">${edit>=0?_t('editEmp'):_t('addEmp')}</h3>
+<div class="fg">${fld('f-n',_t('lName'),e[0])}${fld('f-h',_t('lHr'),e[1],'',1)}<div class="f"><label for="f-g">${_t('lGrp')}</label><input id="f-g" list="gl" value="${esc(e[4])}" autocomplete="off"><datalist id="gl">${groups.map(g=>`<option value="${esc(g)}">`).join('')}</datalist></div>${fld('f-i',_t('lIn'),e[2],'08:00',1)}${fld('f-o',_t('lOut'),e[3],'16:00',1)}</div>
+<div class="tb"><button class="btn pri" id="sv">${edit>=0?_t('saveEdit'):_t('add')}</button>${edit>=0?`<button class="btn" id="cn">${_t('cancel')}</button>`:''}</div><div id="fm"></div>
+<hr class="dv"><details class="side sub" id="ghx"${ghOpen?' open':''}><summary><span>${_t('ghTitle')}</span>${cv}</summary><p class="hint">${_t('ghHint')}</p><div class="fg">${fld('gh-o',_t('ghUser'),GH?GH.o:'','',1)}${fld('gh-r',_t('ghRepo'),GH?GH.r:'','',1)}<div class="f"><label for="gh-t">${_t('ghToken')}</label><input id="gh-t" type="password" dir="ltr" autocomplete="off" value="${esc(GH&&GH.t||'')}"></div></div><div class="tb"><button class="btn pri" id="ghs">${_t('ghSave')}</button>${GH?`<button class="btn" id="ghc">${_t('ghClear')}</button>`:''}</div><div id="ghm"></div></details>
+<div class="tb">${PUB||ghOk()?`<button class="btn pri" id="pb">${_t('pubBtn')}</button>`:''}<button class="btn ${SRV||PUB||ghOk()?'':'pri'}" id="dl">${SRV||PUB||ghOk()?_t('dlBackup'):_t('dlUpd')}</button><button class="btn" id="lk">${_t('lock')}</button></div>
+<details class="side" style="margin:0 0 14px"><summary><span>${_t('chPw')}</span>${cv}</summary><div class="fg"><input id="np" type="password" autocomplete="new-password" placeholder="${esc(_t('newPwPh'))}" aria-label="${esc(_t('newPwLbl'))}"><button class="btn" id="cp">${_t('saveNewPw')}</button></div><div id="pm"></div></details></details>`;
+  $('#adl').hidden=true;
+}
+const msg=(t,ok,id='fm')=>{const el=$('#'+id);if(el)el.innerHTML=`<p class="hint${ok?'':' err'}">${esc(t)}</p>`};
+async function admClick(e){
+  const b=e.target.closest('button');if(!b)return;
+  if(b.id==='pg')return lockGo();
+  if(b.id==='cn'){edit=-1;drawAdmin()}
+  else if(b.id==='sv')save();
+  else if(b.id==='dl')download();
+  else if(b.id==='pb')publishNow();
+  else if(b.id==='ghs'){const o=$('#gh-o').value.trim(),r=$('#gh-r').value.trim().replace(/\.git$/,''),k=$('#gh-t').value.trim();if(!o||!r||!k)return msg(_t('ghMissing'),0,'ghm');GH={o,r,t:k};try{localStorage.setItem('ghc',JSON.stringify(GH))}catch(e){}drawAdmin();msg(_t('ghSaved'),1,'ghm')}
+  else if(b.id==='ghc'){GH=null;try{localStorage.removeItem('ghc')}catch(e){}drawAdmin()}
+  else if(b.id==='tp')template();
+  else if(b.id==='gr')genCurrent();
+  else if(b.id==='xb')exportXlsx();
+  else if(b.id==='xi')exportPng();
+  else if(b.id==='au'){UN.forEach(o=>D.d.push(o.r.slice()));D.d.sort((a,b)=>a[0].localeCompare(b[0],'en',{sensitivity:'base'}));touch();upd()}
+  else if(b.id==='lk'){unlocked=false;edit=-1;eb=null;$('#adm').innerHTML='';$('#adl').hidden=false;draw()}
+  else if(b.id==='cp'){const v=$('#np').value;if(v.length<6)return msg(_t('pw6b'),0,'pm');msg(_t('saving'),1,'pm');if(SRV){try{const j=await api('chpw',{new:v});if(j.ok){PW=v;msg(_t('pwSaved'),1,'pm')}else msg(_t('pwChgFail'),0,'pm')}catch(e){msg(_t('srvNone'),0,'pm')}return}await wait();setPw(v);drawAdmin();msg(_t('pwSavedDl'),1)}
+}
+document.addEventListener('change',e=>{if(e.target.id==='sp'){const i=$('#pi');if(i)i.type=e.target.checked?'text':'password'}});
+document.addEventListener('toggle',e=>{if(e.target.id==='upx')upOpen=e.target.open;if(e.target.id==='ghx')ghOpen=e.target.open},true);
+function save(){
+  const v=id=>$('#'+id).value.trim().replace(/\s+/g,' ');
+  const n=v('f-n'),h=v('f-h'),a=tm(v('f-i')),b=tm(v('f-o')),g=v('f-g');
+  if(!n)return msg(_t('enterName'));
+  if((v('f-i')&&!a)||(v('f-o')&&!b))return msg(_t('timeFmt'));
+  if(D.d.findIndex((r,i)=>i!==edit&&nz(r[0])===nz(n))>=0)return msg(_t('nameDup'));
+  if(h){const dh=D.d.findIndex((r,i)=>i!==edit&&r[1]&&nz(r[1])===nz(h));if(dh>=0)return msg(_t('hrUsed',D.d[dh][0]))}
+  const was=edit>=0;if(was)D.d[edit]=[n,h,a,b,g];else D.d.push([n,h,a,b,g]);
+  edit=-1;touch();upd();msg(was?_t('savedEdit'):_t('added'),1);
+}
+/* ---------- manual break editing (admin) ---------- */
+function ebConflicts(rows,key,g){
+  const gk=nz(g),ex=gk==='wa'||gk==='allianz',out=[];
+  const others=D.b.r.filter(x=>nz(x[2])!==key&&nz(x[1])===gk);
+  rows.forEach(r=>{
+    const s=ab(r[0]),d=+r[3]||15;
+    const ov=others.filter(x=>{const s2=ab(x[0]),d2=+x[3]||15;return s<s2+d2&&s2<s+d});
+    if(ex)ov.forEach(x=>out.push(`${x[2]} (${x[0]})`));
+    else if(ov.length>=2)out.push(`${g||'-'} x${ov.length+1} (${r[0]})`);
+  });
+  return out;
+}
+function ebSave(){
+  const e=eb;if(!e)return;const rows=[];
+  for(const r of e.rows){
+    if(!r.t)continue;
+    const T=tm(r.t),d=Math.round(+r.d);
+    if(!T)continue;
+    if(!(d>=1&&d<=120))return msg(_t('ebDur'),0,'ebm');
+    rows.push([T,e.g,e.name,d===15?'':String(d)]);
+  }
+  if(new Set(rows.map(r=>r[0])).size<rows.length)return msg(_t('ebDup'),0,'ebm');
+  const cf=ebConflicts(rows,e.key,e.g);
+  if(cf.length&&!confirm(_t('ebConf',cf)))return;
+  D.b.r=D.b.r.filter(x=>nz(x[2])!==e.key).concat(rows);
+  if(!D.b.date)D.b.date=today();
+  eb=null;touch();upd();
+}
+/* ---------- Excel / image export ---------- */
+/* XLSX-START */
+const crcT=(()=>{const t=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}return t})();
+const crc32=u=>{let c=0xFFFFFFFF;for(let i=0;i<u.length;i++)c=crcT[(c^u[i])&255]^(c>>>8);return(c^0xFFFFFFFF)>>>0};
+const xcol=i=>{let s='';i++;while(i>0){const m=(i-1)%26;s=String.fromCharCode(65+m)+s;i=(i-m-1)/26}return s};
+function zipStore(files){
+  const enc=new TextEncoder(),parts=[],cd=[];let off=0;
+  const w16=(a,v)=>a.push(v&255,(v>>8)&255),w32=(a,v)=>a.push(v&255,(v>>8)&255,(v>>16)&255,(v>>>24)&255);
+  files.forEach(([name,txt])=>{
+    const nb=enc.encode(name),db=enc.encode(txt),crc=crc32(db),h=[],c=[];
+    w32(h,0x04034b50);w16(h,20);w16(h,0x0800);w16(h,0);w16(h,0);w16(h,0x21);w32(h,crc);w32(h,db.length);w32(h,db.length);w16(h,nb.length);w16(h,0);
+    parts.push(Uint8Array.from(h),nb,db);
+    w32(c,0x02014b50);w16(c,20);w16(c,20);w16(c,0x0800);w16(c,0);w16(c,0);w16(c,0x21);w32(c,crc);w32(c,db.length);w32(c,db.length);w16(c,nb.length);w16(c,0);w16(c,0);w16(c,0);w16(c,0);w32(c,0);w32(c,off);
+    cd.push(Uint8Array.from(c),nb);
+    off+=h.length+nb.length+db.length;
+  });
+  let cds=0;cd.forEach(x=>cds+=x.length);
+  const e=[];w32(e,0x06054b50);w16(e,0);w16(e,0);w16(e,files.length);w16(e,files.length);w32(e,cds);w32(e,off);w16(e,0);
+  const all=[...parts,...cd,Uint8Array.from(e)],out=new Uint8Array(all.reduce((s,x)=>s+x.length,0));
+  let p=0;all.forEach(x=>{out.set(x,p);p+=x.length});return out;
+}
+function makeXlsx(sheets,rtl){
+  const xe=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g,'');
+  const NS='http://schemas.openxmlformats.org/spreadsheetml/2006/main',RN='http://schemas.openxmlformats.org/officeDocument/2006/relationships',PR='http://schemas.openxmlformats.org/package/2006/relationships',OD='http://schemas.openxmlformats.org/officeDocument/2006/relationships',HD='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n';
+  const cellXml=(v,ci,ri,sh)=>{
+    let s,val=v;const obj=v&&typeof v==='object';
+    if(obj){s=v.s;val=v.v}else s=sh.title&&ri===0?2:ri===sh.head?1:3;
+    const ref=xcol(ci)+(ri+1);
+    if(val===''||val==null)return obj?`<c r="${ref}" s="${s}"/>`:'';
+    return `<c r="${ref}" t="inlineStr" s="${s}"><is><t xml:space="preserve">${xe(val)}</t></is></c>`;
+  };
+  const sheetXml=sh=>{
+    const rows=sh.rows.map((r,ri)=>`<row r="${ri+1}"${sh.rh?` ht="${ri===0?30:sh.rh}" customHeight="1"`:''}>`+r.map((v,ci)=>cellXml(v,ci,ri,sh)).join('')+'</row>').join('');
+    const mg=sh.merges&&sh.merges.length?`<mergeCells count="${sh.merges.length}">${sh.merges.map(m=>`<mergeCell ref="${m}"/>`).join('')}</mergeCells>`:'';
+    return HD+`<worksheet xmlns="${NS}">${sh.fit?'<sheetPr><pageSetUpPr fitToPage="1"/></sheetPr>':''}<sheetViews><sheetView workbookViewId="0"${rtl?' rightToLeft="1"':''}${sh.grid===false?' showGridLines="0"':''}/></sheetViews><cols>${sh.w.map((w,i)=>`<col min="${i+1}" max="${i+1}" width="${w}" customWidth="1"/>`).join('')}</cols><sheetData>${rows}</sheetData>${mg}${sh.fit?'<pageMargins left="0.3" right="0.3" top="0.4" bottom="0.4" header="0.2" footer="0.2"/><pageSetup orientation="landscape" fitToWidth="1" fitToHeight="1"/>':''}</worksheet>`;
+  };
+  const fl=c=>`<fill><patternFill patternType="solid"><fgColor rgb="FF${c}"/><bgColor indexed="64"/></patternFill></fill>`;
+  const bd='<border><left style="thin"><color rgb="FFB8C4C2"/></left><right style="thin"><color rgb="FFB8C4C2"/></right><top style="thin"><color rgb="FFB8C4C2"/></top><bottom style="thin"><color rgb="FFB8C4C2"/></bottom><diagonal/></border>';
+  const xf=(f,fi,b,al)=>`<xf numFmtId="0" fontId="${f}" fillId="${fi}" borderId="${b}" xfId="0" applyFont="1" applyFill="1" applyBorder="1"${al?' applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>':'/>'}`;
+  const styles=HD+`<styleSheet xmlns="${NS}"><fonts count="5"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="14"/><name val="Calibri"/></font><font><b/><sz val="11"/><color rgb="FFFFFFFF"/><name val="Calibri"/></font><font><b/><sz val="16"/><name val="Calibri"/></font></fonts>`+
+  `<fills count="11"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill>${['DCEFEA','2F6FDE','0E5C55','FFB020','2B3A38','E3EEFF','FFF1CF','EEF2F1','E6ECEA'].map(fl).join('')}</fills>`+
+  `<borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border>${bd}</borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>`+
+  `<cellXfs count="17">${[xf(0,0,0),xf(1,2,0),xf(2,0,0),'<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment vertical="top" wrapText="1"/></xf>',xf(4,0,0),xf(0,0,0),xf(1,10,1,1),xf(3,6,1,1),xf(3,3,1,1),xf(3,4,1,1),xf(1,5,1,1),xf(3,6,1,1),xf(0,7,1,1),xf(0,2,1,1),xf(0,8,1,1),xf(0,9,1,1),xf(0,0,1,1)].join('')}</cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>`;
+  const files=[
+    ['[Content_Types].xml',HD+`<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>${sheets.map((_,i)=>`<Override PartName="/xl/worksheets/sheet${i+1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join('')}<Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>`],
+    ['_rels/.rels',HD+`<Relationships xmlns="${PR}"><Relationship Id="rId1" Type="${OD}/officeDocument" Target="xl/workbook.xml"/></Relationships>`],
+    ['xl/workbook.xml',HD+`<workbook xmlns="${NS}" xmlns:r="${RN}"><sheets>${sheets.map((s,i)=>`<sheet name="${xe(s.name)}" sheetId="${i+1}" r:id="rId${i+1}"/>`).join('')}</sheets></workbook>`],
+    ['xl/_rels/workbook.xml.rels',HD+`<Relationships xmlns="${PR}">${sheets.map((_,i)=>`<Relationship Id="rId${i+1}" Type="${OD}/worksheet" Target="worksheets/sheet${i+1}.xml"/>`).join('')}<Relationship Id="rId${sheets.length+1}" Type="${OD}/styles" Target="styles.xml"/></Relationships>`],
+    ['xl/styles.xml',styles],
+    ...sheets.map((s,i)=>[`xl/worksheets/sheet${i+1}.xml`,sheetXml(s)])
+  ];
+  return zipStore(files);
+}
+/* XLSX-END */
+const gcol=g=>{const n=nz(g);return n==='wa'?{h:'#FFB020',t:'#2A1A00',c:'#FFF1CF',xh:10,xc:14}:n==='allianz'?{h:'#2F6FDE',t:'#FFFFFF',c:'#E3EEFF',xh:8,xc:12}:n==='hotline'?{h:'#0E5C55',t:'#FFFFFF',c:'#DCEFEA',xh:9,xc:13}:{h:'#4B5B59',t:'#FFFFFF',c:'#EEF2F1',xh:11,xc:15}};
+function boardData(){
+  const R=D.b.r;if(!R.length)return null;
+  const cmp=(a,b)=>String(a).localeCompare(String(b),'en',{sensitivity:'base'});
+  const gs=[...new Set(R.map(x=>x[1]))].sort(cmp),cell={};let lo=1e9,hi=-1;
+  R.forEach(x=>{const a=ab(x[0]),k=a-a%15;lo=Math.min(lo,k);hi=Math.max(hi,k);const o=cell[k]=cell[k]||{};(o[x[1]]=o[x[1]]||[]).push(x)});
+  Object.values(cell).forEach(o=>Object.keys(o).forEach(g=>o[g].sort((a,b)=>cmp(a[2],b[2]))));
+  const cols=gs.map(g=>({g,n:Math.max(1,...Object.values(cell).map(o=>(o[g]||[]).length))}));
+  const slots=[];for(let k=lo;k<=hi;k+=15)slots.push(k);
+  const txt=x=>x[2]+(x[3]?` (${x[3]}m)`:'')+(ab(x[0])%15?` @${x[0]}`:'');
+  const fmt=k=>String(((k%1440)/60)|0).padStart(2,'0')+':'+String(k%60).padStart(2,'0');
+  return{gs,cols,cell,slots,txt,fmt,half:Math.ceil(slots.length/2)};
+}
+function exportXlsx(){
+  if(!D.b.r.length)return msg(_t('xNone'),0,'gm');
+  const B=boardData(),R=D.b.r,cmp=(a,b)=>String(a).localeCompare(String(b),'en',{sensitivity:'base'});
+  /* sheet 1: board split in two halves (easy to screenshot) */
+  const nb=B.cols.reduce((s,c)=>s+c.n,0),bw=1+nb,merges=[];
+  const hblock=()=>{const a=[{v:_t('xTime'),s:7}];B.cols.forEach(c=>{const st=gcol(c.g).xh;a.push({v:c.g||'-',s:st});for(let j=1;j<c.n;j++)a.push({v:'',s:st})});return a};
+  [0,1].forEach(b=>{let c0=b*(bw+1)+1;B.cols.forEach(c=>{if(c.n>1)merges.push(`${xcol(c0)}3:${xcol(c0+c.n-1)}3`);c0+=c.n})});
+  const dblock=k=>{if(k===undefined)return Array(bw).fill('');const a=[{v:B.fmt(k),s:6}];B.cols.forEach(c=>{const g=gcol(c.g),es=(B.cell[k]&&B.cell[k][c.g])||[];for(let j=0;j<c.n;j++){const e=es[j];a.push(e?{v:B.txt(e),s:g.xc}:{v:'',s:16})}});return a};
+  const board=[[{v:_t('xTitle',D.b.date||''),s:4}],[{v:_t('imgSub',R.length,new Set(R.map(x=>x[2])).size),s:0}],[...hblock(),'',...hblock()]];
+  for(let i=0;i<B.half;i++)board.push([...dblock(B.slots[i]),'',...dblock(B.slots[B.half+i])]);
+  const bwid=[9,...B.cols.flatMap(c=>Array(c.n).fill(24))];
+  /* sheet 2: same layout the page imports */
+  const gs=B.gs,by={};R.forEach(x=>(by[x[0]]=by[x[0]]||[]).push(x));
+  const times=Object.keys(by).sort((a,b)=>rl(a)-rl(b)),lab=x=>x[2]+(x[3]?` (${x[3]}m)`:'');
+  const s2=[[_t('xTitle',D.b.date||'')],['Break time',...gs],...times.map(tt=>[tt,...gs.map(g=>by[tt].filter(x=>x[1]===g).map(lab).sort(cmp).join(' + '))])];
+  /* sheet 3: by agent */
+  const per=n=>R.filter(x=>x[2]===n).sort((a,b)=>rl(a[0])-rl(b[0]));
+  const names=[...new Set(R.map(x=>x[2]))].sort((a,b)=>cmp(per(a)[0][1],per(b)[0][1])||cmp(a,b));
+  const mx=Math.max(1,...names.map(n=>per(n).length));
+  const s3=[[_t('xName'),_t('xGroup'),_t('xHr'),_t('xIn'),_t('xOut'),...Array.from({length:mx},(_,i)=>_t('xBrk')+' '+(i+1))],...names.map(n=>{const o=PE.get(nz(n)),p=per(n);return[n,p[0][1],o?o.r[1]:'',o?o.r[2]:'',o?o.r[3]:'',...p.map(x=>x[0]+(x[3]?` (${x[3]}m)`:''))]})];
+  const bytes=makeXlsx([
+    {name:_t('xBoard'),rows:board,merges,w:[...bwid,3,...bwid],rh:22,fit:true,grid:false},
+    {name:_t('xBreaks'),rows:s2,head:1,title:true,w:[26,...gs.map(()=>46)]},
+    {name:_t('xAgent'),rows:s3,head:0,w:[28,14,12,9,9,...Array(mx).fill(14)]}
+  ],lang==='ar');
+  saveBlob(bytes,`breaks-${D.b.date||today()}.xlsx`,'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+  msg(_t('xDone'),1,'gm');
+}
+async function exportPng(){
+  const B=boardData();if(!B)return msg(_t('xNone'),0,'gm');
+  try{await document.fonts.load('600 15px "IBM Plex Sans Arabic"');await document.fonts.ready}catch(e){}
+  const rtl=lang==='ar',S=2,pad=30,tw=76,cw=168,rh=34,hh=42,gap=30,top=88;
+  const bw=tw+B.cols.reduce((s,c)=>s+c.n*cw,0),rows=B.half,W=pad*2+bw*2+gap,H=top+hh+rows*rh+pad;
+  const cv=document.createElement('canvas');cv.width=W*S;cv.height=H*S;
+  const x=cv.getContext('2d');x.scale(S,S);
+  const F='"IBM Plex Sans Arabic","Readex Pro",Tahoma,sans-serif',line='#B8C4C2';
+  x.fillStyle='#ffffff';x.fillRect(0,0,W,H);x.textBaseline='middle';x.direction=rtl?'rtl':'ltr';
+  x.fillStyle='#10201f';x.font=`700 26px ${F}`;x.textAlign=rtl?'right':'left';
+  x.fillText(_t('xTitle',D.b.date||''),rtl?W-pad:pad,pad+14);
+  x.fillStyle='#566866';x.font=`400 15px ${F}`;
+  x.fillText(_t('imgSub',D.b.r.length,new Set(D.b.r.map(r=>r[2])).size),rtl?W-pad:pad,pad+48);
+  const fit=(txt,w)=>{let sz=15;x.font=`500 ${sz}px ${F}`;while(sz>10&&x.measureText(txt).width>w-12){sz--;x.font=`500 ${sz}px ${F}`}if(x.measureText(txt).width>w-12){let t=txt;while(t.length>2&&x.measureText(t+'…').width>w-12)t=t.slice(0,-1);return t+'…'}return txt};
+  const rect=(px,py,w,h,fill)=>{if(fill){x.fillStyle=fill;x.fillRect(px,py,w,h)}x.strokeStyle=line;x.lineWidth=1;x.strokeRect(px+.5,py+.5,w-1,h-1)};
+  const cx=(bx,off,w)=>rtl?bx+bw-off-w:bx+off;
+  for(let bi=0;bi<2;bi++){
+    const bx=rtl?pad+(1-bi)*(bw+gap):pad+bi*(bw+gap),y0=top;
+    rect(cx(bx,0,tw),y0,tw,hh,'#2B3A38');x.fillStyle='#fff';x.font=`700 15px ${F}`;x.textAlign='center';x.fillText(_t('xTime'),cx(bx,0,tw)+tw/2,y0+hh/2);
+    let off=tw;
+    B.cols.forEach(c=>{const col=gcol(c.g),w=c.n*cw;rect(cx(bx,off,w),y0,w,hh,col.h);x.fillStyle=col.t;x.font=`700 16px ${F}`;x.fillText(c.g||'-',cx(bx,off,w)+w/2,y0+hh/2);off+=w});
+    for(let i=0;i<rows;i++){
+      const k=B.slots[bi*rows+i];if(k===undefined)break;
+      const y=y0+hh+i*rh;
+      rect(cx(bx,0,tw),y,tw,rh,'#E6ECEA');x.fillStyle='#10201f';x.font=`700 15px ${F}`;x.textAlign='center';x.fillText(B.fmt(k),cx(bx,0,tw)+tw/2,y+rh/2);
+      let o2=tw;
+      B.cols.forEach(c=>{const col=gcol(c.g);for(let j=0;j<c.n;j++){const e=(B.cell[k]&&B.cell[k][c.g]||[])[j],px=cx(bx,o2,cw);rect(px,y,cw,rh,e?col.c:null);if(e){x.fillStyle='#10201f';x.textAlign='center';x.fillText(fit(B.txt(e),cw),px+cw/2,y+rh/2)}o2+=cw}});
+    }
+  }
+  cv.toBlob(b=>{saveBlob(b,`breaks-${D.b.date||today()}.png`,'image/png');msg(_t('imgDone'),1,'gm')},'image/png');
+}
+
+/* ---------- admin: import / export ---------- */
+function csv(t){
+  const f=t.split('\n')[0],d=(f.match(/;/g)||[]).length>(f.match(/,/g)||[]).length?';':',',o=[];let r=[],c='',q=false;
+  for(let i=0;i<t.length;i++){const ch=t[i];
+    if(q){if(ch==='"'){if(t[i+1]==='"'){c+='"';i++}else q=false}else c+=ch}
+    else if(ch==='"')q=true;else if(ch===d){r.push(c);c=''}
+    else if(ch==='\n'||ch==='\r'){if(ch==='\r'&&t[i+1]==='\n')i++;r.push(c);c='';o.push(r);r=[]}else c+=ch}
+  if(c!==''||r.length){r.push(c);o.push(r)}return o;
+}
+function parseSched(rows,fname){
+  const isH=c=>/^break\s*time$/i.test(String(c).trim()),hi=rows.findIndex(r=>r.some(isH));
+  if(hi<0)throw new Error(_t('errHdr'));
+  const H=rows[hi].map(c=>String(c).trim()),blocks=[];
+  H.forEach((h,i)=>{if(isH(h)){const gs=[];for(let j=i+1;j<H.length&&H[j]&&!isH(H[j]);j++)gs.push([j,H[j]]);blocks.push([i,gs])}});
+  const out=[];
+  rows.slice(hi+1).forEach(r=>blocks.forEach(([ti,gs])=>{
+    const t=tm(r[ti]);if(!t)return;
+    gs.forEach(([j,g])=>String(r[j]??'').split('+').forEach(p=>{p=p.trim();if(!p)return;const m=/^(.*?)\s*\((\d+)\s*m\)$/i.exec(p);out.push([t,g,(m?m[1]:p).trim().replace(/\s+/g,' '),m?m[2]:''])}));
+  }));
+  const dm=/\d{4}-\d{2}-\d{2}/.exec(rows.slice(0,hi).flat().join(' '))||/\d{4}-\d{2}-\d{2}/.exec(fname||'');
+  let dt=dm?dm[0]:'';if(!dt){const nn=rows.slice(0,hi).flat().find(c=>typeof c==='number'&&c>40000);if(nn)dt=new Date(Math.round((nn-25569)*864e5)).toISOString().slice(0,10)}
+  return {date:dt,r:out};
+}
+async function inflate(u){const ds=new DecompressionStream('deflate-raw'),w=ds.writable.getWriter();w.write(u);w.close();return new Uint8Array(await new Response(ds.readable).arrayBuffer())}
+async function unzip(buf){
+  const v=new DataView(buf),u=new Uint8Array(buf);let e=u.length-22;
+  while(e>=0&&v.getUint32(e,true)!==0x06054b50)e--;
+  if(e<0)throw new Error(_t('errZip'));
+  const n=v.getUint16(e+10,true),F={};let p=v.getUint32(e+16,true);
+  for(let i=0;i<n;i++){const nl=v.getUint16(p+28,true),el=v.getUint16(p+30,true),cl=v.getUint16(p+32,true);F[new TextDecoder().decode(u.subarray(p+46,p+46+nl))]={m:v.getUint16(p+10,true),c:v.getUint32(p+20,true),o:v.getUint32(p+42,true)};p+=46+nl+el+cl}
+  return async name=>{const f=F[name];if(!f)return null;const o=f.o,s=o+30+v.getUint16(o+26,true)+v.getUint16(o+28,true),d=u.subarray(s,s+f.c);return new TextDecoder().decode(f.m===0?d:await inflate(d))};
+}
+async function readXlsx(buf){
+  if(typeof DecompressionStream==='undefined')throw new Error(_t('errOld'));
+  const get=await unzip(buf),P=new DOMParser(),X=t=>P.parseFromString(t,'text/xml');
+  const wb=X(await get('xl/workbook.xml')),shs=[...wb.getElementsByTagName('sheet')];if(!shs.length)throw new Error(_t('errNoSheet'));
+  const rels=[...X(await get('xl/_rels/workbook.xml.rels')).getElementsByTagName('Relationship')];
+  const sst=await get('xl/sharedStrings.xml'),SS=sst?[...X(sst).getElementsByTagName('si')].map(si=>[...si.getElementsByTagName('t')].map(t=>t.textContent).join('')):[];
+  const readSheet=async sh=>{
+    const rid=sh.getAttribute('r:id')||sh.getAttributeNS('http://schemas.openxmlformats.org/officeDocument/2006/relationships','id');
+    const rel=rels.find(r=>r.getAttribute('Id')===rid);
+    let path=rel?rel.getAttribute('Target'):'worksheets/sheet1.xml';path=path.startsWith('/')?path.slice(1):'xl/'+path;
+    const sx=await get(path);if(!sx)return null;
+    const out=[];
+    [...X(sx).getElementsByTagName('row')].forEach(r=>{
+      const ri=(+r.getAttribute('r')||out.length+1)-1,row=[];
+      [...r.getElementsByTagName('c')].forEach(c=>{
+        const col=[...(c.getAttribute('r')||'A').replace(/\d+/g,'')].reduce((a,ch)=>a*26+ch.charCodeAt(0)-64,0)-1,t=c.getAttribute('t'),ve=c.getElementsByTagName('v')[0];
+        let val='';
+        if(t==='s')val=SS[+ve.textContent]??'';else if(t==='inlineStr')val=[...c.getElementsByTagName('t')].map(x=>x.textContent).join('');
+        else if(ve)val=(t==='str'||t==='e'||t==='b')?ve.textContent:(isNaN(+ve.textContent)?ve.textContent:+ve.textContent);
+        row[col]=val});
+      for(let i=0;i<row.length;i++)if(row[i]===undefined)row[i]='';
+      out[ri]=row});
+    for(let i=0;i<out.length;i++)if(!out[i])out[i]=[];
+    return out;
+  };
+  let first=null;
+  for(const sh of shs){const o=await readSheet(sh);if(!o)continue;if(!first)first=o;if(o.some(r=>r.some(c=>/^break\s*time$/i.test(String(c).trim()))))return o}
+  if(!first)throw new Error(_t('errNoData'));
+  return first;
+}
+async function readFile(f){
+  msg(_t('reading'),1,'um');
+  try{
+    let rows;
+    if(/\.csv$/i.test(f.name))rows=csv(new TextDecoder('utf-8').decode(await f.arrayBuffer()).replace(/^\uFEFF/,''));
+    else if(/\.xlsx$/i.test(f.name))rows=await readXlsx(await f.arrayBuffer());else throw new Error(_t('errFmt'));
+    if(rows.some(r=>r.some(c=>/^break\s*time$/i.test(String(c).trim())))){
+      const s=parseSched(rows,f.name);if(!s.r.length)throw new Error(_t('errNoBrk'));
+      D.b=s;eb=null;touch();upd();
+      msg(_t('schedSaved',s.date,s.r.length,UN.length,SRV||ghOk()),1,'um');
+      return;
+    }
+    const[up,ad]=mergeRoster(rosterFrom(rows));
+    touch();upd();msg(_t('rosterUpd',up,ad,SRV||ghOk()),1,'um');
+  }catch(e){msg(_t('readFail',e.message||_t('errGen')),0,'um')}
+}
+
+/* ---------- auto break generator ---------- */
+let GD='';
+/* GEN-START */
+const MINB=555,MAXB=1425;
+function planOf(h){if(h<4)return[];if(h<10)return Array(Math.floor(h/4)).fill(15);if(h<11)return[15,15,5];if(h<12)return[15,15,10];return Array(Math.floor(h/4)).fill(15)}
+function genBreaks(L){
+  const EX=new Set(['wa','allianz']),GI=new Map(),A=[],relaxed=[];let base=1e9,skip=0;
+  L.forEach(p=>{
+    const s=mm(p.a),len=(mm(p.b)-s+1440)%1440;if(!len)return;
+    base=Math.min(base,s);
+    const pl=planOf(len/60);if(!pl.length){skip++;return}
+    const mk=(mg,bd)=>{const cb=[],rec=(i,prev,acc)=>{if(i===pl.length){cb.push(acc.slice());return}
+      for(let r=prev+135;r<=prev+mg;r+=15){const T=s+r;if(T%15||r+pl[i]>len||(bd&&(T<MINB||T>MAXB)))continue;acc.push(T);rec(i+1,r,acc);acc.pop()}};rec(0,0,[]);return cb};
+    let cb=mk(210,true),rx=0;
+    if(!cb.length){cb=mk(330,true);rx=1}
+    if(!cb.length){cb=mk(210,false);rx=2}
+    if(!cb.length){cb=mk(330,false);rx=2}
+    if(!cb.length){skip++;return}
+    if(rx)relaxed.push(p.n);
+    const gk=nz(p.g);if(!GI.has(gk))GI.set(gk,GI.size);
+    A.push({n:p.n,g:p.g||'',s,pl,cb,gi:GI.get(gk),ex:EX.has(gk),pick:null});
+  });
+  const TB=[0,0,10,110,600,2000],cf=(ex,c)=>ex?(c>1?1000*(c-1):0):(c<TB.length?TB[c]:2000+500*(c-5)),NG=GI.size||1;
+  const exg=new Array(NG).fill(false);A.forEach(a=>{exg[a.gi]=a.ex});
+  function solve(sd){
+    let z=sd*7919>>>0;const rnd=()=>{z=(z+0x6D2B79F5)>>>0;let t=z;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296};
+    const cnt=new Int16Array(NG*256);
+    const cst=(a,c)=>{let tot=0,prev=a.s;for(const T of c){const i=a.gi*256+(T/15|0),k=cnt[i];tot+=cf(a.ex,k+1)-cf(a.ex,k)+0.02*Math.abs(T-prev-180)/15+(T-prev>210?5*(T-prev-210)/15:0);prev=T}return tot};
+    const put=(a,c,d)=>{for(const T of c)cnt[a.gi*256+(T/15|0)]+=d};
+    const best=(a,noise)=>{let bc=null,bv=1e18;for(const c of a.cb){const v=cst(a,c)+rnd()*noise;if(v<bv){bv=v;bc=c}}return bc};
+    [...A].sort((x,y)=>x.cb.length-y.cb.length).forEach(a=>{a.pick=best(a,1e-6);put(a,a.pick,1)});
+    for(let it=0;it<80;it++){
+      let ch=0;const o=[...A];for(let i=o.length-1;i>0;i--){const j=Math.floor(rnd()*(i+1));[o[i],o[j]]=[o[j],o[i]]}
+      for(const a of o){put(a,a.pick,-1);const b=best(a,1e-3);if(b!==a.pick)ch++;a.pick=b;put(a,b,1)}
+      if(!ch)break;
+    }
+    let cost=0;for(let g=0;g<NG;g++)for(let k=0;k<256;k++)cost+=cf(exg[g],cnt[g*256+k]);
+    return{cost,picks:A.map(a=>a.pick),cnt};
+  }
+  let B=null;for(let sd=1;sd<=16;sd++){const r=solve(sd);if(!B||r.cost<B.cost)B=r}
+  const rows=[];
+  A.forEach((a,i)=>B.picks[i].forEach((T,j)=>rows.push([T,a.g,a.n,a.pl[j]===15?'':String(a.pl[j])])));
+  rows.sort((x,y)=>x[0]-y[0]||String(x[1]).localeCompare(y[1])||x[2].localeCompare(y[2]));
+  let ex=0,h2=0,h3=0;
+  for(let g=0;g<NG;g++)for(let k=0;k<256;k++){const c=B.cnt[g*256+k];if(exg[g]){if(c>1)ex++}else if(c===2)h2++;else if(c>2)h3++}
+  const f=T=>String((T%1440)/60|0).padStart(2,'0')+':'+String(T%60).padStart(2,'0');
+  return{rows:rows.map(r=>[f(r[0]),r[1],r[2],r[3]]),base:base===1e9?0:base,n:A.length,skip,ex,h2,h3,relaxed};
+}
+/* GEN-END */
+function rosterFrom(rows){
+  const hi=rows.findIndex(r=>r.some(c=>String(c).trim()));if(hi<0)throw new Error(_t('errEmpty'));
+  const H=rows[hi].map(nz),fi=re=>H.findIndex(h=>h&&re.test(h));
+  const ci={n:fi(/^name|اسم|^agent|employee name|موظف/),h:fi(/(^|[^a-z])hr([^a-z]|$)|code|كود|رقم|employee id|^id$/),i:fi(/^in(\s|$)|دخول|بدايه|start/),o:fi(/^out(\s|$)|خروج|نهايه|end/),g:fi(/group|مجموع|قسم|team|project/)};
+  if(ci.n<0)throw new Error(_t('errName'));
+  const out=[];
+  rows.slice(hi+1).forEach(r=>{
+    const g=k=>ci[k]>=0?String(r[ci[k]]??'').trim().replace(/\s+/g,' '):'';
+    const n=g('n');if(!n)return;
+    let a=ci.i>=0?tm(r[ci.i]):'',b=ci.o>=0?tm(r[ci.o]):'';
+    if(!a||!b){const m=/(\d{1,2}:\d{2})\s*[-\u2013\u2014]\s*(\d{1,2}:\d{2})/.exec(r.join(' '));if(m){a=tm(m[1]);b=tm(m[2])}}
+    out.push([n,g('h'),a,b,g('g')]);
+  });
+  return out;
+}
+function mergeRoster(list){
+  let up=0,ad=0;
+  list.forEach(([n,h,a,b,gr])=>{const j=D.d.findIndex(e=>nz(e[0])===nz(n));if(j>=0){const e=D.d[j];if(h)e[1]=h;if(a)e[2]=a;if(b)e[3]=b;if(gr)e[4]=gr;up++}else{D.d.push([n,h,a,b,gr]);ad++}});
+  return[up,ad];
+}
+function runGen(list,pre){
+  const dv=$('#gd'),date=(dv&&dv.value)||GD||today();GD=date;
+  const R=genBreaks(list.map(r=>({n:r[0],g:r[4],a:r[2],b:r[3]})));
+  if(!R.rows.length){msg(_t('genNone'),0,'gm');return}
+  D.b={date,base:R.base,r:R.rows};eb=null;touch();upd();
+  const p=[(pre||'')+_t('genDone',date,R.rows.length,R.n)];
+  if(R.skip)p.push(_t('genSkip',R.skip));
+  p.push(R.ex?_t('genEx',R.ex):_t('genNoEx'));
+  p.push(R.h2||R.h3?_t('genHot',R.h2,R.h3):_t('genHotNone'));
+  if(R.relaxed&&R.relaxed.length)p.push(_t('genRelax',R.relaxed.slice(0,6).join(_t('sep'))+(R.relaxed.length>6?'…':'')));
+  if(!SRV&&!ghOk())p.push(_t('remind'));
+  msg(p.join(' '),!R.ex,'gm');
+}
+function genCurrent(){
+  const list=D.d.filter(r=>r[2]&&r[3]);
+  if(!list.length)return msg(_t('errNoShiftL'),0,'gm');
+  runGen(list,'');
+}
+async function genFile(f){
+  msg(_t('reading'),1,'gm');
+  try{
+    let rows;
+    if(/\.csv$/i.test(f.name))rows=csv(new TextDecoder('utf-8').decode(await f.arrayBuffer()).replace(/^\uFEFF/,''));
+    else if(/\.xlsx$/i.test(f.name))rows=await readXlsx(await f.arrayBuffer());else throw new Error(_t('errFmt'));
+    const list=rosterFrom(rows).filter(r=>r[2]&&r[3]);
+    if(!list.length)throw new Error(_t('errNoShift'));
+    const[up,ad]=mergeRoster(list);
+    runGen(list,_t('rosterPre',up,ad));
+  }catch(e){msg(_t('readFail',e.message||_t('errGen')),0,'gm')}
+}
+function saveBlob(text,name,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;document.body.appendChild(a);a.click();a.remove()}
+function template(){
+  const q=s=>'"'+String(s??'').replace(/"/g,'""')+'"';
+  saveBlob('\uFEFF'+[['Name','HR Code','In','Out','Group'],...D.d,...UN.map(o=>o.r)].map(r=>r.map(q).join(',')).join('\r\n'),'employees.csv','text/csv;charset=utf-8');
+}
+function buildDoc(){
+  const c=document.documentElement.cloneNode(true);
+  [...c.attributes].forEach(a=>{if(a.name!=='lang'&&a.name!=='dir')c.removeAttribute(a.name)});
+  c.setAttribute('lang','ar');c.setAttribute('dir','rtl');
+  const bd=c.querySelector('body');[...bd.attributes].forEach(a=>bd.removeAttribute(a.name));
+  c.querySelectorAll('script[src],meta[http-equiv],base').forEach(e=>e.remove());
+  c.querySelectorAll('script').forEach(e=>{if(!(e.id==='data'||/getItem\("th"\)/.test(e.textContent)||/const LG=/.test(e.textContent)))e.remove()});
+  [...bd.children].forEach(e=>{if(!(e.tagName==='svg'||e.tagName==='HEADER'||e.id==='app'||e.tagName==='SCRIPT'))e.remove()});
+  c.querySelector('title').textContent=LG.ar.title;c.querySelector('#brand').textContent=LG.ar.title;c.querySelector('#lang').textContent='EN';
+  c.querySelector('#app').innerHTML='';c.querySelector('#xl')?.remove();
+  c.querySelector('#data').textContent=JSON.stringify({...D,u:new Date().toISOString()}).replace(/</g,'\\u003c');
+  return '<!doctype html>\n'+c.outerHTML;
+}
+function download(){
+  const nm=(location.pathname.split('/').pop()||'index.html');
+  saveBlob(buildDoc(),/\.html?$/i.test(nm)?nm:'index.html','text/html;charset=utf-8');
+  dirty=false;drawAdmin();msg(_t('dlDone'),1);
+}
+const b64=t=>{const u=new TextEncoder().encode(t);let o='';for(let i=0;i<u.length;i+=0x8000)o+=String.fromCharCode.apply(null,u.subarray(i,i+0x8000));return btoa(o)};
+async function ghPublish(){
+  const base=GH.api||'https://api.github.com',url=`${base}/repos/${encodeURIComponent(GH.o)}/${encodeURIComponent(GH.r)}/contents/data.json`;
+  const H={'Authorization':'Bearer '+GH.t,'Accept':'application/vnd.github+json'};
+  D.u=new Date().toISOString();const body=b64(JSON.stringify(D));
+  for(let i=0;i<3;i++){
+    let sha;const g=await fetch(url+'?t='+Date.now(),{headers:H,cache:'no-store'});
+    if(g.status===200)sha=(await g.json()).sha;else if(g.status!==404)throw{s:g.status};
+    const r=await fetch(url,{method:'PUT',headers:{...H,'Content-Type':'application/json'},body:JSON.stringify({message:'Update break schedule',content:body,...(sha?{sha}:{})})});
+    if(r.ok)return;
+    if(r.status===409||r.status===422)continue;
+    throw{s:r.status};
+  }
+  throw{s:409};
+}
+async function publishNow(){
+  const st=()=>$('#sv-st'),show=(t,ok)=>{if(st())st().innerHTML=`<p class="hint${ok?'':' err'}">${t}</p>`};
+  if(PUB){
+    show(_t('pubWait'),1);
+    try{await PUB.publish(buildDoc());dirty=false;show(_t('pubOk'),1)}
+    catch(e){const k=e&&e.code;if(k==='conflict')return;show(k==='not_writer'||k==='not_granted'?_t('pubNoRight'):_t('pubFail'))}
+    return;
+  }
+  if(!ghOk())return;
+  if(pubBusy)return;
+  pubBusy=true;
+  show(_t('pubWait'),1);
+  try{await ghPublish();dirty=false;show(_t('ghOk'),1);stats()}
+  catch(e){const c=e&&e.s;show(c===401||c===403?_t('ghAuth'):c===404?_t('ghNF'):_t('ghFail'))}
+  pubBusy=false;
+}
+applyLang();build();
+async function pullStatic(){
+  try{
+    const r=await fetch('data.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return;
+    const j=await r.json();if(!(j&&Array.isArray(j.d)))return;
+    const first=!STAT;STAT=true;
+    if(first||j.u!==D.u){D.d=j.d;D.b=(j.b&&Array.isArray(j.b.r))?j.b:{date:'',r:[]};D.u=j.u||D.u;if(j.h){D.h=j.h;D.s=j.s}upd()}
+  }catch(e){}
+}
+async function pull(){
+  try{
+    const r=await fetch('api.php?action=get&t='+Date.now(),{cache:'no-store'}),j=await r.json();
+    if(j&&j.ok){
+      const first=!SRV;SRV=true;SRVPW=!!j.pw;
+      if(j.data&&Array.isArray(j.data.d)&&(first||j.data.u!==D.u)){D.d=j.data.d;D.b=(j.data.b&&Array.isArray(j.data.b.r))?j.data.b:{date:'',r:[]};D.u=j.data.u||D.u;upd()}
+      return;
+    }
+  }catch(e){}
+  if(!SRV)await pullStatic();
+}
+pull();
+setInterval(()=>{if((SRV||STAT)&&!unlocked&&!saving&&!document.hidden)pull()},120000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&(SRV||STAT)&&!unlocked&&!saving)pull()});
+(async()=>{try{if(window.claude&&claude.use){PUB=await claude.use('artifact');if(PUB&&unlocked)drawAdmin()}}catch(e){}})();
+})();
+</script>
+</body>
+</html>
