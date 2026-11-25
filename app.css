@@ -1,23 +1,27 @@
 :root {
-  --bg: #eef2f5;
-  --card: #ffffff;
-  --soft: #f9fafb;
-  --ink: #1f2a37;
-  --muted: #6b7280;
-  --accent: #0f766e;
-  --accent-soft: #d7efec;
-  --line: #e5e9ee;
+  --bg: #f5ede3;
+  --card: #fffaf4;
+  --soft: #faf1e6;
+  --ink: #3a2a20;
+  --muted: #7d6857;
+  --accent: #8b5a3c;
+  --accent-soft: #f0dcc8;
+  --line: #e8d7c3;
+  --h1: #fbeedd;
+  --h2: #f1d9bd;
   --radius: 16px;
 }
 body.dark {
-  --bg: #0e1620;
-  --card: #182635;
-  --soft: #101c29;
-  --ink: #e6edf3;
-  --muted: #93a3b3;
-  --accent: #2aa79d;
-  --accent-soft: #173c3a;
-  --line: #2b3d4d;
+  --bg: #17110d;
+  --card: #251a14;
+  --soft: #1d1410;
+  --ink: #f3e8db;
+  --muted: #b09a86;
+  --accent: #d89c63;
+  --accent-soft: #3b2a1e;
+  --line: #4a3626;
+  --h1: #2e2018;
+  --h2: #3a2819;
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
@@ -42,10 +46,15 @@ body {
   padding: 16px;
   margin-top: 12px;
 }
-.hero { text-align: center; }
-.hero h1 { margin: 4px 0 2px; font-size: 1.5rem; }
+.hero { text-align: center; background: linear-gradient(160deg, var(--h1), var(--h2)); border-color: var(--line); overflow: hidden; }
+body.dark .hero { background: linear-gradient(160deg, var(--h1), var(--h2)); }
+.hero h1 { margin: 4px 0 2px; font-size: 1.75rem; color: var(--accent); }
 .hero .muted { margin: 0 0 10px; }
-.hero-img { width: 100%; max-width: 360px; border-radius: 12px; display: block; margin: 8px auto 0; }
+.hero-img { display: block; width: calc(100% + 32px); max-width: none; margin: 12px -16px -16px; border-radius: 0; }
+@media (min-width: 700px) {
+  .hero-img { width: 100%; max-width: 620px; margin: 12px auto 0; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,.15); }
+  .hero h1 { font-size: 2.1rem; }
+}
 .muted { color: var(--muted); font-size: 0.9rem; }
 .search {
   width: 100%;
@@ -70,6 +79,8 @@ body {
   font-family: inherit;
 }
 .chip.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+body.dark .chip.on, body.dark .btn { color: #1a1109; }
+.card { box-shadow: 0 1px 3px rgba(0,0,0,.06); }
 .stats { display: flex; gap: 10px; margin-top: 12px; }
 .stat {
   flex: 1;
@@ -79,6 +90,7 @@ body {
   text-align: center;
   padding: 10px 4px;
 }
+.stat { border-top: 3px solid var(--accent); }
 .stat b { display: block; font-size: 1.25rem; color: var(--accent); }
 .stat span { font-size: 0.8rem; color: var(--muted); }
 .list { padding: 6px 0; }
