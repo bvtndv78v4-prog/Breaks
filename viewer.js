@@ -116,8 +116,10 @@
     themeBtn.setAttribute("aria-label", state.dark ? t.themeToLight : t.themeToDark);
     themeBtn.title = state.dark ? t.themeToLight : t.themeToDark;
     document.getElementById("langBtn").textContent = t.langBtn;
-    document.getElementById("xlsBtn").textContent = t.dlExcel;
-    document.getElementById("imgBtnLbl").textContent = t.dlImage;
+    document.getElementById("xlsBtn").textContent = "\u2b07 Excel \u00b7 Times";
+    document.getElementById("imgBtnLbl").textContent = "Image \u00b7 Times";
+    document.getElementById("pxlsBtn").textContent = "\u2b07 Excel \u00b7 People";
+    document.getElementById("pimgBtn").textContent = "\u2b07 Image \u00b7 People";
   }
 
   function renderChips() {
@@ -310,9 +312,9 @@
   }
 
   /* ---------- current view as a table (shared by Excel + image) ---------- */
-  function viewTable() {
+  function viewTable(forceView) {
     var t = I18N.en;
-    if (state.view === "p") {
+    if ((forceView || state.view) === "p") {
       var byName = breaksByName();
       var people = sortByBreak(filteredPeople(), byName, shiftMap());
       var maxB = 0;
@@ -360,7 +362,7 @@
   }
 
   /* ---------- Excel (ExcelJS: styled, landscape) ---------- */
-  var TEAM_XLS = { Allianz: "FF1D4ED8", WA: "FF15803D", Hotline: "FFB45309" };
+  var TEAM_XLS = { Allianz: "FF2F5FB3", WA: "FF3F8F5A", Hotline: "FFB8433A" };
   var excelLoading = null;
   function loadExcelLib(cb) {
     if (window.ExcelJS) return cb(null);
@@ -533,6 +535,215 @@
     }, "image/png");
   }
 
+
+  function peopleColors() {
+    return {
+      bg: "#f5ede3", card: "#fffaf4", ink: "#3a2a20", muted: "#7d6857",
+      accent: "#8b5a3c", line: "#e8d7c3", band: "#f0dcc8", alt: "#faf1e6",
+      team: { Allianz: "#2f5fb3", WA: "#3f8f5a", Hotline: "#b8433a" }
+    };
+  }
+  function dlTitle() {
+    var cfg = (window.SITE_CONFIG && window.SITE_CONFIG.title) || "";
+    var ct = (state.data && state.data.title) || cfg;
+    return (ct && ct !== I18N.ar.defaultTitle) ? ct : I18N.en.defaultTitle;
+  }
+
+  function downloadExcelPeople() {
+    loadExcelLib(function (err) {
+      if (err) return;
+      var tbl = viewTable("p");
+      var rtl = false;
+      var wb = new ExcelJS.Workbook();
+      var ws = wb.addWorksheet(tbl.sheet.slice(0, 31), { views: [{ rightToLeft: rtl, state: "frozen", ySplit: 1 }] });
+      ws.pageSetup = { orientation: "landscape", fitToPage: true, fitToWidth: 1, fitToHeight: 0, paperSize: 9 };
+      ws.columns = tbl.headers.map(function (h, i) {
+        var w = String(h).length;
+        tbl.rows.forEach(function (r) {
+          var l = String(r[i] == null ? "" : r[i]).length;
+          if (l > w) w = l;
+        });
+        return { width: Math.min(Math.max(w * 1.15 + 3, 10), 42) };
+      });
+      var head = ws.addRow(tbl.headers);
+      head.height = 22;
+      head.eachCell(function (cell) {
+        cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FF8B5A3C" } };
+        cell.font = { bold: true, color: { argb: "FFFFFFFF" }, size: 11 };
+        cell.alignment = { horizontal: "center", vertical: "middle" };
+        cell.border = thinBorders();
+      });
+      var teamCol = tbl.headers.indexOf(T().hTeam);
+      tbl.rows.forEach(function (r, ri) {
+        var row = ws.addRow(r);
+        row.eachCell({ includeEmpty: true }, function (cell, ci) {
+          cell.border = thinBorders();
+          cell.alignment = { vertical: "middle", horizontal: ci === 1 ? (rtl ? "right" : "left") : "center" };
+          if (ri % 2) cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFF5EDE3" } };
+        });
+        if (teamCol >= 0 && TEAM_XLS[r[teamCol]]) {
+          row.getCell(teamCol + 1).font = { bold: true, color: { argb: TEAM_XLS[r[teamCol]] } };
+        }
+      });
+      wb.xlsx.writeBuffer().then(function (buf) {
+        saveBlob(new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), fileBase() + "-people.xlsx");
+      });
+    });
+  }
+
+
+  /* ---------- Image per person ---------- */
+  function downloadImagePeople() {
+    var t = I18N.en;
+    var rtl = false;
+    var c = peopleColors();
+
+    var headers, rows;
+    if (true) {
+      var byName = breaksByName();
+      headers = [t.hName, t.hTeam, t.hShift, t.breaks];
+      rows = sortByBreak(filteredPeople(), byName, shiftMap()).map(function (r) {
+        var bs = (byName[r[0]] || []).map(breakCell);
+        return [r[0], r[4], (r[2] && r[3]) ? r[2] + " - " + r[3] : "", bs.join("  \u00b7  ") || t.noBreak];
+      });
+    } else {
+      headers = [t.hTime, t.hTeam, t.hEmployee];
+      rows = filteredBreaks().map(function (r) { return [r[0], r[1], r[2] + (Number(r[3]) > 0 ? " (" + r[3] + " min)" : "")]; });
+    }
+    var nCols = headers.length;
+
+    var W = 1920, pad = 26, gap = 22;
+    var groups = rows.length > 72 ? 3 : (rows.length > 28 ? 2 : 1);
+    var per = Math.max(Math.ceil(rows.length / groups), 1);
+    var gw = Math.floor((W - pad * 2 - gap * (groups - 1)) / groups);
+    var fr = true ? [0.28, 0.14, 0.20, 0.38] : [0.16, 0.20, 0.64];
+    var colW = fr.map(function (f) { return Math.floor(gw * f); });
+
+    var canvas = document.createElement("canvas");
+    var ctx = canvas.getContext("2d");
+    var fTitle = "700 46px 'Segoe UI', Tahoma, sans-serif";
+    var fSub = "26px 'Segoe UI', Tahoma, sans-serif";
+    var fHead = "700 22px 'Segoe UI', Tahoma, sans-serif";
+    var fCell = "21px 'Segoe UI', Tahoma, sans-serif";
+    var fBold = "700 21px 'Segoe UI', Tahoma, sans-serif";
+
+    function wrapCell(text, width) {
+      text = String(text == null ? "" : text);
+      if (!text) return [""];
+      var words = text.split(" ");
+      var lines = [], cur = "";
+      words.forEach(function (w) {
+        var tryS = cur ? cur + " " + w : w;
+        if (ctx.measureText(tryS).width + 18 > width && cur) { lines.push(cur); cur = w; }
+        else cur = tryS;
+      });
+      lines.push(cur);
+      return lines;
+    }
+
+    ctx.font = fCell;
+    var rowHeights = rows.map(function (r) {
+      var maxLines = 1;
+      for (var i = 0; i < nCols; i++) {
+        var n = wrapCell(r[i], colW[i]).length;
+        if (n > maxLines) maxLines = n;
+      }
+      return maxLines * 27 + 13;
+    });
+
+    var titleH = 110, headH = 42, footH = 48;
+    var groupBody = [];
+    var bodyH = 0;
+    for (var g = 0; g < groups; g++) {
+      var h = 0;
+      for (var i = g * per; i < Math.min((g + 1) * per, rows.length); i++) h += rowHeights[i];
+      groupBody.push(h);
+      if (h > bodyH) bodyH = h;
+    }
+    var H = pad + titleH + headH + bodyH + footH + pad;
+
+    canvas.width = W;
+    canvas.height = H;
+    ctx = canvas.getContext("2d");
+    ctx.direction = rtl ? "rtl" : "ltr";
+    ctx.textBaseline = "middle";
+
+    ctx.fillStyle = c.bg;
+    ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = c.card;
+    roundRect(ctx, 8, 8, W - 16, H - 16, 20);
+    ctx.fill();
+
+    // title band
+    ctx.fillStyle = c.accent;
+    roundRect(ctx, 8, 8, W - 16, pad + titleH, 20);
+    ctx.fill();
+    ctx.fillRect(8, 8 + pad + titleH - 26, W - 16, 26);
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#ffffff";
+    ctx.font = fTitle;
+    ctx.fillText(dlTitle(), W / 2, 8 + pad + 30);
+    ctx.font = fSub;
+    var dstr = new Date(state.data.meta.date + "T12:00:00").toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+    ctx.globalAlpha = 0.92;
+    ctx.fillText(dstr + " \u00b7 " + (true ? t.people : t.full), W / 2, 8 + pad + 74);
+    ctx.globalAlpha = 1;
+
+    var order = [];
+    for (var i = 0; i < nCols; i++) order.push(rtl ? nCols - 1 - i : i);
+
+    for (var g = 0; g < groups; g++) {
+      var x0 = pad + g * (gw + gap);
+      var xs = [], x = x0;
+      for (var i = 0; i < nCols; i++) { xs.push(x); x += colW[i]; }
+      var y = pad + titleH;
+
+      ctx.fillStyle = c.band;
+      ctx.fillRect(x0, y, gw, headH);
+      ctx.font = fHead;
+      ctx.fillStyle = c.ink;
+      order.forEach(function (ci, pos) {
+        ctx.textAlign = "center";
+        ctx.fillText(headers[ci], xs[pos] + colW[pos] / 2, y + headH / 2);
+      });
+      y += headH;
+
+      var start = g * per, end = Math.min(start + per, rows.length);
+      for (var ri = start; ri < end; ri++) {
+        var r = rows[ri];
+        ctx.fillStyle = (ri - start) % 2 ? c.alt : c.card;
+        ctx.fillRect(x0, y, gw, rowHeights[ri]);
+        ctx.direction = "ltr";
+        order.forEach(function (ci, pos) {
+          ctx.font = pos === 0 ? fBold : fCell;
+          var lines = wrapCell(r[ci], colW[pos]);
+          ctx.fillStyle = (headers[ci] === t.hTeam && c.team[r[ci]]) ? c.team[r[ci]] : (pos === nCols - 1 && true ? c.accent : c.ink);
+          ctx.textAlign = "center";
+          var tx = xs[pos] + colW[pos] / 2;
+          var blockH = lines.length * 27;
+          var sy = y + (rowHeights[ri] - blockH) / 2 + 13;
+          lines.forEach(function (ln, li) { ctx.fillText(ln, tx, sy + li * 27); });
+        });
+        ctx.strokeStyle = c.line;
+        ctx.beginPath();
+        ctx.moveTo(x0, y + rowHeights[ri]);
+        ctx.lineTo(x0 + gw, y + rowHeights[ri]);
+        ctx.stroke();
+        y += rowHeights[ri];
+      }
+    }
+
+    ctx.textAlign = "center";
+    ctx.fillStyle = c.muted;
+    ctx.font = "20px 'Segoe UI', Tahoma, sans-serif";
+    ctx.fillText(dlTitle() + " \u00b7 " + dstr, W / 2, H - pad - 16);
+
+    canvas.toBlob(function (blob) {
+      if (blob) saveBlob(blob, fileBase() + "-people.png");
+    }, "image/png");
+  }
+
+
   function roundRect(ctx, x, y, w, h, r) {
     ctx.beginPath();
     ctx.moveTo(x + r, y);
@@ -560,6 +771,8 @@
     };
     document.getElementById("xlsBtn").onclick = downloadExcel;
     document.getElementById("imgBtn").onclick = downloadImage;
+    document.getElementById("pxlsBtn").onclick = downloadExcelPeople;
+    document.getElementById("pimgBtn").onclick = downloadImagePeople;
     renderAll();
   }
 

@@ -134,7 +134,7 @@ span.b-next {
 .spin { text-align: center; color: var(--muted); padding: 30px; }
 .lbl { display: block; font-size: 0.9rem; color: var(--muted); margin: 12px 0 4px; }
 .file-in { display: block; width: 100%; padding: 10px; border: 1px dashed var(--line); border-radius: 12px; background: var(--soft); }
-.tools { display: flex; gap: 8px; align-items: center; margin-bottom: 6px; }
+.tools { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 6px; }
 .tools-gap { flex: 1; }
 .tool-btn {
   border: 1px solid var(--line);
