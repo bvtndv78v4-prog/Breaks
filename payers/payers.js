@@ -2,8 +2,8 @@
   var D = window.PAYERS, state = { lang: "ar", dark: false, tab: "payers", kind: "ri", q: "", open: {} };
   try { state.lang = localStorage.getItem("pay_lang") || "ar"; state.dark = localStorage.getItem("pay_dark") === "1"; } catch (e) {}
   var T = {
-    ar: { title: "دليل شركات التأمين", sub: "طرق الاسترداد النقدي، فترات التقديم، والمستندات المطلوبة", ph: "ابحث باسم الشركة أو الكود أو أي كلمة", payers: "شركات التأمين", docs: "المستندات المطلوبة", ri: "طريقة الاسترداد", sb: "التقديم وإعادة التقديم", corp: "تأمين شركات", ind: "تأمين فردي", both: "شركات وأفراد", res: " نتيجة", none: "لا توجد نتائج", copy: "نسخ", copied: "تم ✓", lang: "English", note: "ملاحظات مهمة", doc: "المستندات", arNote: "النص العربي غير متوفر، النص الإنجليزي:" },
-    en: { title: "Payer Knowledge Base", sub: "Reimbursement methods, submission windows and required documents", ph: "Search by payer name, code or any word", payers: "Payers", docs: "Required documents", ri: "Reimbursement method", sb: "Submission & resubmission", corp: "Corporate", ind: "Individual", both: "Corporate & Individual", res: " results", none: "No results", copy: "Copy", copied: "Copied ✓", lang: "العربية", note: "Urgent notes", doc: "Documents", arNote: "" }
+    ar: { title: "دليل شركات التأمين", sub: "طرق الاسترداد النقدي، فترات التقديم، والمستندات المطلوبة", ph: "ابحث باسم الشركة أو الكود أو أي كلمة", payers: "طرق الاسترداد", docs: "الأوراق المطلوبة", notes: "ملاحظات عاجلة (Urgent)", ri: "طريقة الاسترداد", sb: "التقديم وإعادة التقديم", corp: "تأمين شركات", ind: "تأمين فردي", both: "شركات وأفراد", res: " نتيجة", none: "لا توجد نتائج", copy: "نسخ", copied: "تم ✓", lang: "English", note: "ملاحظات مهمة", doc: "المستندات", arNote: "النص العربي غير متوفر، النص الإنجليزي:" },
+    en: { title: "Payer Knowledge Base", sub: "Reimbursement methods, submission windows and required documents", ph: "Search by payer name, code or any word", payers: "Reimbursement methods", docs: "Required documents", notes: "Urgent notes", ri: "Reimbursement method", sb: "Submission & resubmission", corp: "Corporate", ind: "Individual", both: "Corporate & Individual", res: " results", none: "No results", copy: "Copy", copied: "Copied ✓", lang: "العربية", note: "Urgent notes", doc: "Documents", arNote: "" }
   };
   var $ = function (id) { return document.getElementById(id); };
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
@@ -34,7 +34,7 @@
     document.body.classList.toggle("dark", state.dark);
     $("title").textContent = t.title; $("sub").textContent = t.sub; $("q").placeholder = t.ph;
     $("langBtn").textContent = t.lang; $("themeBtn").textContent = state.dark ? "☀️" : "🌙";
-    $("tabs").innerHTML = ["payers", "docs"].map(function (k) { return '<button type="button" class="chip' + (state.tab === k ? " on active" : "") + '" data-tab="' + k + '">' + t[k] + "</button>"; }).join("");
+    $("tabs").innerHTML = ["payers", "docs", "notes"].map(function (k) { return '<button type="button" class="chip' + (state.tab === k ? " on active" : "") + '" data-tab="' + k + '">' + t[k] + "</button>"; }).join("");
     $("kinds").innerHTML = "";
     if (state.tab === "payers") {
       D.payers.forEach(function (p, idx) {
@@ -46,13 +46,16 @@
       });
     } else {
       D.docs.forEach(function (d, idx) {
+        if (state.tab === "notes" && !d.note) return;
         var txt = state.lang === "ar" ? (d.ar || d.en) : d.en;
         var hay = norm(d.type + " " + d.code + " " + d.en + " " + d.ar + " " + d.note);
         if (q && !q.split(/\s+/).every(function (w) { return hay.indexOf(w) > -1; })) return;
         n++;
-        var open = state.open["d" + idx] || (q && n <= 3 && q.length > 2);
+        var open = state.tab === "notes" ? state.open["d" + idx] !== false : (state.open["d" + idx] || (q && n <= 3 && q.length > 2));
         var body = "";
-        if (open) {
+        if (open && state.tab === "notes") {
+          body = '<div class="blk"><h3><span>' + t.note + '</span><button class="cp" type="button">' + t.copy + '</button></h3><div class="txt en">' + hl(d.note, state.q) + "</div></div>";
+        } else if (open) {
           var ar = state.lang === "ar" && d.ar;
           body = '<div class="blk"><h3><span>' + t.doc + '</span><button class="cp" type="button">' + t.copy + '</button></h3><div class="txt ' + (ar ? "ar" : "en") + '">' + hl(txt, state.q) + "</div></div>";
           if (d.note) body += '<div class="blk"><h3><span>' + t.note + '</span><button class="cp" type="button">' + t.copy + '</button></h3><div class="txt en">' + hl(d.note, state.q) + "</div></div>";
