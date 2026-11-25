@@ -28,7 +28,7 @@
       unavailable: "البيانات مش متاحة دلوقتي. جرّب تاني بعد شوية.",
       defaultTitle: "جدول البريكات",
       hName: "الاسم", hHR: "كود HR", hTeam: "الفريق", hShift: "الشيفت",
-      hBreak: "بريك ", hTotal: "إجمالي البريك (دقيقة)",
+      hBreak: "بريك ", hTotal: "دقائق إضافية",
       hTime: "الوقت", hEmployee: "الموظف", hDur: "المدة (دقيقة)",
       sheetPeople: "بريكات الأفراد", sheetFull: "الجدول الكامل"
     },
@@ -49,7 +49,7 @@
       unavailable: "Data is not available right now. Please try again soon.",
       defaultTitle: "Breaks Schedule",
       hName: "Name", hHR: "HR Code", hTeam: "Team", hShift: "Shift",
-      hBreak: "Break ", hTotal: "Total break (min)",
+      hBreak: "Break ", hTotal: "Extra min",
       hTime: "Time", hEmployee: "Employee", hDur: "Duration (min)",
       sheetPeople: "Personal breaks", sheetFull: "Full schedule"
     }
@@ -333,7 +333,7 @@
           row.push(bs[i] ? bs[i][0] : "");
           if (bs[i] && bs[i][3]) total += Number(bs[i][3]) || 0;
         }
-        row.push(total);
+        row.push(total || "");
         return row;
       });
       return { headers: headers, rows: rows, sheet: t.sheetPeople };
