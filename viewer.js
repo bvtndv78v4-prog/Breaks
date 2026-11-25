@@ -463,7 +463,7 @@
     var ex = exportSlots();
     var W = 2000, pad = 24, gap = 24;
     var gw = Math.floor((W - pad * 2 - gap) / 2);
-    var fr = [0.12, 0.17, 0.46, 0.25];
+    var fr = [0.145, 0.17, 0.44, 0.245];
     var colW = fr.map(function (f) { return Math.floor(gw * f); });
     var canvas = document.createElement("canvas");
     var ctx = canvas.getContext("2d");
