@@ -28,6 +28,10 @@ body {
   line-height: 1.6;
 }
 .page { max-width: 640px; margin: 0 auto; padding: 12px 12px 40px; }
+@media (min-width: 900px) {
+  .page { max-width: 1400px; padding: 16px 32px 48px; }
+  .page.narrow { max-width: 640px; }
+}
 .card {
   background: var(--card);
   border: 1px solid var(--line);

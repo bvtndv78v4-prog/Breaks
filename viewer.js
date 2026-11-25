@@ -19,7 +19,7 @@
       noBreak: "مفيش بريك متسجل", noShift: "الشيفت مش متسجل",
       shiftIs: "الشيفت ", shiftTo: " لـ ", min: "min",
       searchPh: "ابحث بالاسم أو كود HR",
-      daySub: "بريكات فرق Allianz وWA وHotline",
+      daySub: "بريكات Teams Allianz وWA وHotline",
       updatedPre: "آخر تحديث للبيانات: ",
       updatedPost: " بتوقيت القاهرة. أي تحديث جديد بيظهر هنا أول ما يتسجّل.",
       dlExcel: "⬇ Excel", dlImage: "Image",
