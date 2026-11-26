@@ -28,7 +28,7 @@
       unavailable: "البيانات مش متاحة دلوقتي. جرّب تاني بعد شوية.",
       defaultTitle: "جدول البريكات",
       hName: "الاسم", hHR: "كود HR", hTeam: "الفريق", hShift: "الشيفت",
-      hBreak: "بريك ", hTotal: "دقائق إضافية",
+      hBreak: "بريك ", hTotal: "دقائق إضافية", hAllBreak: "إجمالي البريك (د)",
       hTime: "الوقت", hEmployee: "الموظف", hDur: "المدة (دقيقة)",
       sheetPeople: "بريكات الأفراد", sheetFull: "الجدول الكامل"
     },
@@ -49,7 +49,7 @@
       unavailable: "Data is not available right now. Please try again soon.",
       defaultTitle: "Breaks Schedule",
       hName: "Name", hHR: "HR Code", hTeam: "Team", hShift: "Shift",
-      hBreak: "Break ", hTotal: "Extra min",
+      hBreak: "Break ", hTotal: "Extra min", hAllBreak: "Total break (min)",
       hTime: "Time", hEmployee: "Employee", hDur: "Duration (min)",
       sheetPeople: "Personal breaks", sheetFull: "Full schedule"
     }
@@ -325,15 +325,18 @@
       var headers = [t.hName, t.hHR, t.hTeam, t.hShift];
       for (var i = 1; i <= maxB; i++) headers.push(t.hBreak + fmt(i));
       headers.push(t.hTotal);
+      headers.push(t.hAllBreak);
       var rows = people.map(function (r) {
         var bs = byName[r[0]] || [];
-        var total = 0;
+        var total = 0, all = 0;
         var row = [r[0], r[1] || "", r[4], (r[2] && r[3]) ? r[2] + " - " + r[3] : ""];
         for (var i = 0; i < maxB; i++) {
           row.push(bs[i] ? bs[i][0] : "");
+          if (bs[i]) all += 15 + (Number(bs[i][3]) || 0);
           if (bs[i] && bs[i][3]) total += Number(bs[i][3]) || 0;
         }
         row.push(total || "");
+        row.push(all || "");
         return row;
       });
       return { headers: headers, rows: rows, sheet: t.sheetPeople };
