@@ -213,7 +213,6 @@
       people.forEach(function (r) {
         var row = el("div", "row");
         var nm = el("div", "nm", r[0]);
-        if (totalMin[r[0]] > 0) nm.appendChild(el("span", "mins", totalMin[r[0]] + " min"));
         row.appendChild(nm);
         row.appendChild(el("div", "dt", r[4] + " · " + shiftText(r)));
         var bs = byName[r[0]] || [];
@@ -324,18 +323,16 @@
       });
       var headers = [t.hName, t.hHR, t.hTeam, t.hShift];
       for (var i = 1; i <= maxB; i++) headers.push(t.hBreak + fmt(i));
-      headers.push(t.hTotal);
       headers.push(t.hAllBreak);
       var rows = people.map(function (r) {
         var bs = byName[r[0]] || [];
         var total = 0, all = 0;
         var row = [r[0], r[1] || "", r[4], (r[2] && r[3]) ? r[2] + " - " + r[3] : ""];
         for (var i = 0; i < maxB; i++) {
-          row.push(bs[i] ? bs[i][0] : "");
-          if (bs[i]) all += 15 + (Number(bs[i][3]) || 0);
-          if (bs[i] && bs[i][3]) total += Number(bs[i][3]) || 0;
+          var dur = bs[i] ? (Number(bs[i][3]) || 15) : 0;
+          row.push(bs[i] ? bs[i][0] + (dur < 15 ? " (" + dur + ")" : "") : "");
+          all += dur;
         }
-        row.push(total || "");
         row.push(all || "");
         return row;
       });
